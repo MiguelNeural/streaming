@@ -1,0 +1,76 @@
+{% load static %}
+<div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
+	<div class="sidebar-brand d-none d-md-flex">
+		<img
+			class="sidebar-brand-full"
+			width="auto"
+			height="30"
+			alt="Neural10 Logo"
+			src="{% static 'dashboard/img/neural_white.png' %}"
+		/>
+		<img
+			class="sidebar-brand-narrow"
+			width="auto"
+			height="30"
+			alt="Neural10 Logo"
+			src="{% static 'dashboard/img/neural_logo_white.png' %}"
+		/>
+	</div>
+
+	<ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
+		<li class="nav-title">Aplicaciones</li>
+		<li class="nav-item">
+			<a class="nav-link" href="#">
+				<span class="nav-icon material-symbols-outlined">
+					directions_car
+				</span>
+				Registro de placas
+			</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="#">
+				<span class="nav-icon material-symbols-outlined">
+					background_replace
+				</span>
+				Reconocimiento facial
+			</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="#">
+				<span class="nav-icon material-symbols-outlined">groups</span>
+				Contéo de personas
+			</a>
+		</li>
+
+		<li class="nav-title">Administración</li>
+		<li class="nav-item">
+			<a class="nav-link" href="#">
+				<span class="nav-icon material-symbols-outlined">group</span>
+				Usuarios
+			</a>
+		</li>
+
+		<li class="nav-item">
+			<a class="nav-link" href="/cameras/">
+				<span class="nav-icon material-symbols-outlined">
+					center_focus_strong
+				</span>
+				Cámaras
+			</a>
+		</li>
+
+		<li class="nav-item">
+			<a class="nav-link" href="#">
+				<span class="nav-icon material-symbols-outlined">
+					monitoring
+				</span>
+				Reportes
+			</a>
+		</li>
+	</ul>
+	<button
+		class="sidebar-toggler"
+		type="button"
+		data-coreui-toggle="unfoldable"
+	></button>
+</div>

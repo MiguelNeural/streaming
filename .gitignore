@@ -1,0 +1,3 @@
+__pycache__/
+streaming/settings.py
+db.sqlite3

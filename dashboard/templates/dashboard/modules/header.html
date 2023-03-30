@@ -1,0 +1,63 @@
+{% load static %}
+<header class="header header-sticky mb-4">
+	<div class="container-fluid">
+		<button
+			class="header-toggler px-md-0 me-md-3"
+			type="button"
+			onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()">
+			<span class="nav-icon material-symbols-outlined">menu</span>
+		</button>
+
+		<ul class="header-nav ms-3">
+			<li class="nav-item dropdown">
+				<a
+					class="nav-link py-0"
+					data-coreui-toggle="dropdown"
+					href="#"
+					role="button"
+					aria-haspopup="true"
+					aria-expanded="false">
+					<div class="avatar avatar-md">
+						<img
+							class="avatar-img"
+							src="{% static 'dashboard/img/avatars/default.png' %}"
+							alt="usuario" />
+					</div>
+				</a>
+				<div class="dropdown-menu dropdown-menu-end pt-0">
+					<div class="dropdown-header bg-light py-2">
+						<div class="fw-semibold">Cuenta</div>
+					</div>
+					<a
+						class="dropdown-item"
+						href="#">
+						<span class="material-symbols-outlined">
+							notifications
+						</span>
+						Notificaciones
+					</a>
+					<a
+						class="dropdown-item"
+						href="#">
+						<span class="material-symbols-outlined">settings</span>
+						Configuraciones
+					</a>
+
+					<div class="dropdown-divider"></div>
+					<a
+						class="dropdown-item"
+						href="#">
+						<span class="material-symbols-outlined">lock</span>
+						Bloqueo de cuenta
+					</a>
+					<a
+						class="dropdown-item"
+						href="#">
+						<span class="material-symbols-outlined">logout</span>
+						Cerrar sesión
+					</a>
+				</div>
+			</li>
+		</ul>
+	</div>
+</header>
