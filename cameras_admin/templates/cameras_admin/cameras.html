@@ -13,7 +13,7 @@
 		</button>
 	</div>
 </div>
-<br><br>
+<br>
 <div class="row">
 	<table class="table">
 		<thead>
@@ -21,6 +21,7 @@
 				<th scope="col">#</th>
 				<th scope="col">Cámara</th>
 				<th scope="col">RTSP</th>
+				<th scope="col">Servicios</th>
 				<th scope="col">Vista</th>
 				<th scope="col">Editar</th>
 				<th scope="col">Eliminar</th>
@@ -32,8 +33,28 @@
 				<td>Pasillo 1</td>
 				<td>rtsp://root:Aegis4040@192.168.5.35/live.sdp</td>
 				<td>
-					<button class="btn btn-secondary btn-logo" data-coreui-toggle="modal" data-coreui-target="#cameraViewModal">
-						<span class="material-symbols-outlined">visibility</span>
+					<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+						<input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off" disabled>
+						<label class="btn btn-outline-success active" for="btncheck1">Contéo</label>
+
+						<input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off" disabled>
+						<label class="btn btn-outline-success" for="btncheck2">Reconocimiento</label>
+
+						<input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off" disabled>
+						<label class="btn btn-outline-success" for="btncheck3">Placas</label>
+					</div>
+				</td>
+				<td>
+					<form action="{% url 'send_message' %}" method="post" id="enviarRTSP_form">
+						{% csrf_token %}
+						<button class="btn btn-secondary btn-logo" id="enviarRTSP_btn">
+							<span class="material-symbols-outlined">visibility</span>
+						</button>
+					</form>
+				</td>
+				<td>
+					<button class="btn btn-primary btn-logo">
+						<span class="material-symbols-outlined">edit</span>
 					</button>
 				</td>
 				<td>
@@ -41,16 +62,24 @@
 						<span class="material-symbols-outlined">delete</span>
 					</button>
 				</td>
-				<td>
-					<button class="btn btn-primary btn-logo">
-						<span class="material-symbols-outlined">edit</span>
-					</button>
-				</td>
 			</tr>
 		</tbody>
 	</table>
 </div>
-
+<br>
+<div class="row">
+	{% comment %} {% if result and result != 'No response from server.' %} {% endcomment %}
+	<div class="row">
+		<div id="videoContainer" style="padding: 0">
+			<img
+				id="videoFromCV"
+				src="{% url 'video_feed' %}?result={{ result }}"
+			/>
+		</div>
+	</div>
+	{% comment %} {% endif %} {% endcomment %}
+</div>
+<br>
 <!-- Form Modal -->
 <div
 	class="modal fade modal-lg"
@@ -77,7 +106,7 @@
 					{% csrf_token %}
 					<div class="mb-3">
 						<label for="cameraName_field" class="form-label">
-							Nombre de cámara
+							Nombre de la cámara
 						</label>
 						<input
 							type="text"
@@ -99,6 +128,21 @@
 							required
 						></input>
 					</div>
+						<label class="form-label">
+							Servicios
+						</label>
+						<div class="form-check form-switch">
+							<input class="form-check-input" type="checkbox" role="switch" id="countingPeople_flexSwitch">
+							<label class="form-check-label" for="countingPeople_flexSwitch">Contéo de personas</label>
+						</div>
+						<div class="form-check form-switch">
+							<input class="form-check-input" type="checkbox" role="switch" id="faceRecog_flexSwitch">
+							<label class="form-check-label" for="faceRecog_flexSwitch">Reconocimiento facial</label>
+						</div>
+						<div class="form-check form-switch">
+							<input class="form-check-input" type="checkbox" role="switch" id="vehicules_flexSwitch">
+							<label class="form-check-label" for="vehicules_flexSwitch">Registro de placas vehículares</label>
+						</div>
 				</form>
 			</div>
 			<div class="modal-footer">
