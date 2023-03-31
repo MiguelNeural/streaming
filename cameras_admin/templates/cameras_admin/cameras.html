@@ -7,48 +7,62 @@
 			type="button"
 			class="btn btn-primary"
 			data-coreui-toggle="modal"
-			data-coreui-target="#exampleModal"
+			data-coreui-target="#cameraFormModal"
 		>
 			Agregar cámara
 		</button>
 	</div>
-	<div class="col-2">
-		<form action="{% url 'send_message' %}" method="post">
-			{% csrf_token %}
-			<input
-				type="submit"
-				class="btn btn-primary"
-				value="Enviar mensaje"
-			/>
-		</form>
-	</div>
-	<div class="col-8">Resultado: {{ result }}</div>
 </div>
-
-{% if result and result != 'No response from server.' %}
-<!-- HTML elements to render if result is true -->
+<br><br>
 <div class="row">
-	<div id="videoContainer" style="padding: 0">
-		<img
-			id="videoFromCV"
-			src="{% url 'video_feed' %}?result={{ result }}"
-		/>
-	</div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Cámara</th>
+				<th scope="col">RTSP</th>
+				<th scope="col">Vista</th>
+				<th scope="col">Editar</th>
+				<th scope="col">Eliminar</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th scope="row">1</th>
+				<td>Pasillo 1</td>
+				<td>rtsp://root:Aegis4040@192.168.5.35/live.sdp</td>
+				<td>
+					<button class="btn btn-secondary btn-logo" data-coreui-toggle="modal" data-coreui-target="#cameraViewModal">
+						<span class="material-symbols-outlined">visibility</span>
+					</button>
+				</td>
+				<td>
+					<button class="btn btn-danger btn-logo">
+						<span class="material-symbols-outlined">delete</span>
+					</button>
+				</td>
+				<td>
+					<button class="btn btn-primary btn-logo">
+						<span class="material-symbols-outlined">edit</span>
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
-{% endif %}
 
-<!-- Modal -->
+<!-- Form Modal -->
 <div
 	class="modal fade modal-lg"
-	id="exampleModal"
+	id="cameraFormModal"
 	tabindex="-1"
-	aria-labelledby="exampleModalLabel"
+	aria-labelledby="cameraFormModalLabel"
 	aria-hidden="true"
 >
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">
+				<h5 class="modal-title" id="cameraFormModalLabel">
 					Agregar cámara
 				</h5>
 				<button
@@ -59,34 +73,33 @@
 				></button>
 			</div>
 			<div class="modal-body">
-				<form method="post">
+				<form action="{% url 'create_camera' %}" method="post" id="createCamera_form">
 					{% csrf_token %}
-					<div>{{ form.name.label_tag }} {{ form.name }}</div>
-					<div>{{ form.email.label_tag }} {{ form.email }}</div>
-					<button type="submit">Submit</button>
+					<div class="mb-3">
+						<label for="cameraName_field" class="form-label">
+							Nombre de cámara
+						</label>
+						<input
+							type="text"
+							class="form-control"
+							id="cameraName_field"
+							name="name"
+							required
+						/>
+					</div>
+					<div class="mb-3">
+						<label for="cameraRtsp_field" class="form-label">
+							RTSP
+						</label>
+						<input
+							type="text"
+							class="form-control"
+							id="cameraRtsp_field"
+							name="rtsp"
+							required
+						></input>
+					</div>
 				</form>
-
-				<div class="mb-3">
-					<label for="exampleFormControlInput1" class="form-label">
-						Nombre de camara
-					</label>
-					<input
-						type="name"
-						class="form-control"
-						id="exampleFormControlInput1"
-						placeholder="name@example.com"
-					/>
-				</div>
-				<div class="mb-3">
-					<label for="exampleFormControlTextarea1" class="form-label">
-						Example textarea
-					</label>
-					<textarea
-						class="form-control"
-						id="exampleFormControlTextarea1"
-						rows="3"
-					></textarea>
-				</div>
 			</div>
 			<div class="modal-footer">
 				<button
@@ -96,7 +109,35 @@
 				>
 					Cancelar
 				</button>
-				<button type="button" class="btn btn-primary">Guardar</button>
+				<button id="saveCamera_btn" type="button" class="btn btn-primary">Guardar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Form Modal -->
+<div
+	class="modal fade modal-lg"
+	id="cameraViewModal"
+	tabindex="-1"
+	aria-labelledby="cameraFormModalLabel"
+	aria-hidden="true"
+>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="cameraViewModalLabel">
+					Cámara: Pasillo 1
+				</h5>
+				<button
+					type="button"
+					class="btn-close"
+					data-coreui-dismiss="modal"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="modal-body">
+				
 			</div>
 		</div>
 	</div>
