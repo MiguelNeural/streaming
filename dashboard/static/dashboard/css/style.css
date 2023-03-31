@@ -3517,6 +3517,11 @@ html:not([dir="rtl"]) .form-check-inline .form-check-input ~ .invalid-feedback {
 	background-color: var(--cui-btn-hover-bg);
 	border-color: var(--cui-btn-hover-border-color);
 }
+.btn-logo{
+	display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .btn-check + .btn:hover {
 	color: var(--cui-btn-color);
 	background-color: var(--cui-btn-bg);
