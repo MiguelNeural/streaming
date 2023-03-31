@@ -3,6 +3,7 @@ import multiprocessing.connection
 from django.views.decorators import gzip
 from django.http import StreamingHttpResponse
 from .modules.camera import VideoCamera, gen
+from .modules.forms import CreateCamera_form
 
 # Create your views here.
 def cameras(request):
@@ -33,3 +34,13 @@ def video_feed(request):
         return StreamingHttpResponse(gen(cam), content_type="multipart/x-mixed-replace;boundary=frame")
     except:  # This is bad! replace it with proper handling
         pass
+    
+def create_camera(request):
+    if request.method == 'POST':
+        form = CreateCamera_form(request.POST)
+        if form.is_valid():
+            form.save()
+            render(request, 'cameras_admin/cameras.html', {'sweet': form})
+    else:
+        form = CreateCamera_form()
+    return render(request, 'cameras_admin/cameras.html', {'form': form})
