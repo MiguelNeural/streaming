@@ -4,10 +4,12 @@ from django.views.decorators import gzip
 from django.http import StreamingHttpResponse
 from .modules.camera import VideoCamera, gen
 from .modules.forms import CreateCamera_form
+from .models import Camera
 
 # Create your views here.
 def cameras(request):
-    return render(request, 'cameras_admin/cameras.html')
+    cameras = Camera.objects.filter(deleted__isnull=True)
+    return render(request, 'cameras_admin/cameras.html', {'cameras': cameras})
 
 def send_message(request):
     address = ('192.168.15.103', 6000)
@@ -25,7 +27,7 @@ def send_message(request):
     context = {'result': result}
     return render(request, 'cameras_admin/cameras.html', context)
 
-
+# GENERAR VIDEO POR RTSP
 @gzip.gzip_page
 def video_feed(request):
     result = request.GET.get('result', '')

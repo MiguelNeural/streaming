@@ -28,47 +28,50 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<th scope="row">1</th>
-				<td>Pasillo 1</td>
-				<td>rtsp://root:Aegis4040@192.168.5.35/live.sdp</td>
-				<td>
-					<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-						<input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off" disabled>
-						<label class="btn btn-outline-success active" for="btncheck1">Contéo</label>
-
-						<input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off" disabled>
-						<label class="btn btn-outline-success" for="btncheck2">Reconocimiento</label>
-
-						<input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off" disabled>
-						<label class="btn btn-outline-success" for="btncheck3">Placas</label>
-					</div>
-				</td>
-				<td>
-					<form action="{% url 'send_message' %}" method="post" id="enviarRTSP_form">
-						{% csrf_token %}
-						<button class="btn btn-secondary btn-logo" id="enviarRTSP_btn">
-							<span class="material-symbols-outlined">visibility</span>
+			{% for camera in cameras %}
+				<tr>
+					<th scope="row">{{id}}</th>
+					<td>{{camera.name}}</td>
+					<td>{{camera.rtsp}}</td>
+					<td>
+						{% if camera.peop_c_service %}
+							Conteo de personas
+						{% elif camera.face_rec_service %}
+							Reconocimiento facial
+						{% elif camera.vehicules_service %}
+							Lectura de placas vehiculares
+						{% else %}
+							Sin servicios activos
+						{% endif %}
+					</td>
+					<td>
+						<form action="{% url 'send_message' %}" method="post" id="sendCamera_form">
+							{% csrf_token %}
+							<input type="hidden" name="camera_id" value="{{ camera.camera_id }}">
+							<button class="btn btn-secondary btn-logo" id="sendRTSP_btn">
+								<span class="material-symbols-outlined">visibility</span>
+							</button>
+						</form>
+					</td>
+					<td>
+						<button class="btn btn-primary btn-logo">
+							<span class="material-symbols-outlined">edit</span>
 						</button>
-					</form>
-				</td>
-				<td>
-					<button class="btn btn-primary btn-logo">
-						<span class="material-symbols-outlined">edit</span>
-					</button>
-				</td>
-				<td>
-					<button class="btn btn-danger btn-logo">
-						<span class="material-symbols-outlined">delete</span>
-					</button>
-				</td>
-			</tr>
+					</td>
+					<td>
+						<button class="btn btn-danger btn-logo">
+							<span class="material-symbols-outlined">delete</span>
+						</button>
+					</td>
+				</tr>
+			{% endfor %}
 		</tbody>
 	</table>
 </div>
 <br>
+
 <div class="row">
-	{% comment %} {% if result and result != 'No response from server.' %} {% endcomment %}
+	{% if result and result != 'No response from server.' %}
 	<div class="row">
 		<div id="videoContainer" style="padding: 0">
 			<img
@@ -77,7 +80,7 @@
 			/>
 		</div>
 	</div>
-	{% comment %} {% endif %} {% endcomment %}
+	{% endif %}
 </div>
 <br>
 <!-- Form Modal -->
@@ -154,34 +157,6 @@
 					Cancelar
 				</button>
 				<button id="saveCamera_btn" type="button" class="btn btn-primary">Guardar</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- Form Modal -->
-<div
-	class="modal fade modal-lg"
-	id="cameraViewModal"
-	tabindex="-1"
-	aria-labelledby="cameraFormModalLabel"
-	aria-hidden="true"
->
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="cameraViewModalLabel">
-					Cámara: Pasillo 1
-				</h5>
-				<button
-					type="button"
-					class="btn-close"
-					data-coreui-dismiss="modal"
-					aria-label="Close"
-				></button>
-			</div>
-			<div class="modal-body">
-				
 			</div>
 		</div>
 	</div>

@@ -4,8 +4,8 @@ $(document).ready(function () {
 		$("#createCamera_form").submit();
 	});
 
-	$("#enviarRTSP_btn").click(function (e) {
+	$("#sendRTSP_btn").click(function (e) {
 		e.preventDefault();
-		$("#enviarRTSP_form").submit();
+		$("#sendCamera_form").submit();
 	});
 });
