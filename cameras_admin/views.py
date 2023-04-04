@@ -42,18 +42,19 @@ def video_feed(request):
         pass
     
 def create_camera(request):
-    cameras = Camera.objects.filter(deleted__isnull=True)
     if request.method == 'POST':
         form = CreateCamera_form(request.POST)
         if form.is_valid():
-            if(request.POST.get('camera_id') is ""):
-                form.save()
+            form.save()
+            cameras = Camera.objects.filter(deleted__isnull=True)
             data = {
-                'sweet': form,
+                'show_alert': "success",
+                'message': "Cámara agregada correctamente",
                 'cameras': cameras
             }
-            return redirect('cameras', data)
+            return render(request, 'cameras_admin/cameras.html', data)
         else:
+            cameras = Camera.objects.filter(deleted__isnull=True)
             data = {
                 'form': form,
                 'cameras': cameras,
@@ -61,6 +62,7 @@ def create_camera(request):
             return render(request, 'cameras_admin/cameras.html', data)
     else:
         form = CreateCamera_form()
+        cameras = Camera.objects.filter(deleted__isnull=True)
         data = {
             'form': form,
             'cameras': cameras,
