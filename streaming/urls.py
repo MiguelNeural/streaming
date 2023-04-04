@@ -23,7 +23,8 @@ urlpatterns = [
     path('dashboard/', dash_views.index, name="dashboard"),
     
     path('cameras/', cam_views.cameras, name='cameras'),
-    path('create_camera/', cam_views.create_camera, name='create_camera'),
+    path('cameras/created', cam_views.create_camera, name='create_camera'),
+    path('cameras/delete', cam_views.delete_camera, name='delete_camera'),
     
     path('send_message/', cam_views.send_message, name='send_message'),
     
