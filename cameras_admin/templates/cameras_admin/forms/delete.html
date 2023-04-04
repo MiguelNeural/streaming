@@ -1,0 +1,30 @@
+<div class="modal fade modal-lg" id="deleteCameraModal" tabindex="-1" aria-labelledby="deleteCameraModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="deleteCameraModalLabel">
+					Eliminar cámara
+				</h5>
+				<button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close" />
+			</div>
+			<div class="modal-body">
+				<form action="{% url 'delete_camera' %}" method="post" id="deleteCamera_form">
+					{% csrf_token %}
+					<input type="hidden" name="camera_id" id="deleteCameraId_input">
+					<div class="mb-3">
+						<label class="form-label">
+							¿Está seguro que deséa eliminar la cámara "<span id="camera_name_div"></span>"?
+						</label>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-coreui-dismiss="modal">
+					Cancelar
+				</button>
+				<button id="deleteCamera_btn" type="button" class="btn btn-danger">
+					Eliminar
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
