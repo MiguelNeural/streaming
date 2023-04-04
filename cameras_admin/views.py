@@ -9,7 +9,11 @@ from .models import Camera
 # Create your views here.
 def cameras(request):
     cameras = Camera.objects.filter(deleted__isnull=True)
-    return render(request, 'cameras_admin/cameras.html', {'cameras': cameras})
+    data = {
+        'form': CreateCamera_form(),
+        'cameras': cameras
+    }
+    return render(request, 'cameras_admin/cameras.html', data)
 
 def send_message(request):
     address = ('192.168.15.103', 6000)
@@ -38,11 +42,34 @@ def video_feed(request):
         pass
     
 def create_camera(request):
+    cameras = Camera.objects.filter(deleted__isnull=True)
     if request.method == 'POST':
         form = CreateCamera_form(request.POST)
         if form.is_valid():
-            form.save()
-            render(request, 'cameras_admin/cameras.html', {'sweet': form})
+            if(request.POST.get('camera_id') is ""):
+                form.save()
+            data = {
+                'sweet': form,
+                'cameras': cameras
+            }
+            return redirect('cameras', data)
+        else:
+            data = {
+                'form': form,
+                'cameras': cameras,
+            }
+            return render(request, 'cameras_admin/cameras.html', data)
     else:
         form = CreateCamera_form()
-    return render(request, 'cameras_admin/cameras.html', {'form': form})
+        data = {
+            'form': form,
+            'cameras': cameras,
+        }
+        return render(request, 'cameras_admin/cameras.html', data)
+
+def delete_camera(request):
+    cameras = Camera.objects.filter(deleted__isnull=True)
+    data = {
+        'cameras': cameras
+    }
+    return render(request, 'cameras_admin/cameras.html', data)
