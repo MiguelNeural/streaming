@@ -3,12 +3,7 @@
 
 <div class="row">
 	<div class="col-2">
-		<button
-			type="button"
-			class="btn btn-primary"
-			data-coreui-toggle="modal"
-			data-coreui-target="#cameraFormModal"
-		>
+		<button type="button" class="btn btn-primary" data-coreui-toggle="modal" data-coreui-target="#cameraFormModal" >
 			Agregar cámara
 		</button>
 	</div>
@@ -30,7 +25,7 @@
 		<tbody>
 			{% for camera in cameras %}
 				<tr>
-					<th scope="row">{{id}}</th>
+					<th scope="row">{{ camera.camera_id }}</th>
 					<td>{{camera.name}}</td>
 					<td>{{camera.rtsp}}</td>
 					<td>
@@ -45,21 +40,21 @@
 						{% endif %}
 					</td>
 					<td>
-						<form action="{% url 'send_message' %}" method="post" id="sendCamera_form">
+						<form action="{% url 'send_message' %}" method="post" id="watchCamera_form">
 							{% csrf_token %}
 							<input type="hidden" name="camera_id" value="{{ camera.camera_id }}">
-							<button class="btn btn-secondary btn-logo" id="sendRTSP_btn">
+							<button class="btn btn-secondary btn-logo" id="watchCameraForm_btn">
 								<span class="material-symbols-outlined">visibility</span>
 							</button>
 						</form>
 					</td>
 					<td>
-						<button class="btn btn-primary btn-logo">
+						<button class="btn btn-primary btn-logo" data-coreui-toggle="modal" data-coreui-target="#cameraFormModal" data-camera-id="{{camera.camera_id}}">
 							<span class="material-symbols-outlined">edit</span>
 						</button>
 					</td>
 					<td>
-						<button class="btn btn-danger btn-logo">
+						<button class="btn btn-danger btn-logo" data-coreui-toggle="modal" data-coreui-target="#deleteCameraModal" data-camera-id="{{camera.camera_id}}" data-camera-name="{{camera.name}}">
 							<span class="material-symbols-outlined">delete</span>
 						</button>
 					</td>
@@ -74,92 +69,20 @@
 	{% if result and result != 'No response from server.' %}
 	<div class="row">
 		<div id="videoContainer" style="padding: 0">
-			<img
-				id="videoFromCV"
-				src="{% url 'video_feed' %}?result={{ result }}"
-			/>
+			<img id="videoFromCV" src="{% url 'video_feed' %}?result={{ result }}" />
 		</div>
 	</div>
 	{% endif %}
 </div>
 <br>
-<!-- Form Modal -->
-<div
-	class="modal fade modal-lg"
-	id="cameraFormModal"
-	tabindex="-1"
-	aria-labelledby="cameraFormModalLabel"
-	aria-hidden="true"
->
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="cameraFormModalLabel">
-					Agregar cámara
-				</h5>
-				<button
-					type="button"
-					class="btn-close"
-					data-coreui-dismiss="modal"
-					aria-label="Close"
-				></button>
-			</div>
-			<div class="modal-body">
-				<form action="{% url 'create_camera' %}" method="post" id="createCamera_form">
-					{% csrf_token %}
-					<div class="mb-3">
-						<label for="cameraName_field" class="form-label">
-							Nombre de la cámara
-						</label>
-						<input
-							type="text"
-							class="form-control"
-							id="cameraName_field"
-							name="name"
-							required
-						/>
-					</div>
-					<div class="mb-3">
-						<label for="cameraRtsp_field" class="form-label">
-							RTSP
-						</label>
-						<input
-							type="text"
-							class="form-control"
-							id="cameraRtsp_field"
-							name="rtsp"
-							required
-						></input>
-					</div>
-						<label class="form-label">
-							Servicios
-						</label>
-						<div class="form-check form-switch">
-							<input class="form-check-input" type="checkbox" role="switch" id="countingPeople_flexSwitch">
-							<label class="form-check-label" for="countingPeople_flexSwitch">Contéo de personas</label>
-						</div>
-						<div class="form-check form-switch">
-							<input class="form-check-input" type="checkbox" role="switch" id="faceRecog_flexSwitch">
-							<label class="form-check-label" for="faceRecog_flexSwitch">Reconocimiento facial</label>
-						</div>
-						<div class="form-check form-switch">
-							<input class="form-check-input" type="checkbox" role="switch" id="vehicules_flexSwitch">
-							<label class="form-check-label" for="vehicules_flexSwitch">Registro de placas vehículares</label>
-						</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button
-					type="button"
-					class="btn btn-secondary"
-					data-coreui-dismiss="modal"
-				>
-					Cancelar
-				</button>
-				<button id="saveCamera_btn" type="button" class="btn btn-primary">Guardar</button>
-			</div>
-		</div>
-	</div>
-</div>
+
+<!-- Create Modal -->
+{% include 'cameras_admin/forms/create.html' %}
+
+<!-- Update Modal -->
+{% comment %} {% include 'cameras_admin/forms/update.html' %} {% endcomment %}
+
+<!-- Delete Modal -->
+{% include 'cameras_admin/forms/delete.html' %}
 
 {% endblock %}
