@@ -3,103 +3,86 @@
 
 <div class="row">
 	<div class="col-2">
-		<button
-			type="button"
-			class="btn btn-primary"
-			data-coreui-toggle="modal"
-			data-coreui-target="#exampleModal"
-		>
+		<button type="button" class="btn btn-primary" data-coreui-toggle="modal" data-coreui-target="#cameraFormModal" >
 			Agregar cámara
 		</button>
 	</div>
-	<div class="col-2">
-		<form action="{% url 'send_message' %}" method="post">
-			{% csrf_token %}
-			<input
-				type="submit"
-				class="btn btn-primary"
-				value="Enviar mensaje"
-			/>
-		</form>
-	</div>
-	<div class="col-8">Resultado: {{ result }}</div>
 </div>
-
-{% if result and result != 'No response from server.' %}
-<!-- HTML elements to render if result is true -->
+<br>
 <div class="row">
-	<div id="videoContainer" style="padding: 0">
-		<img
-			id="videoFromCV"
-			src="{% url 'video_feed' %}?result={{ result }}"
-		/>
-	</div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Cámara</th>
+				<th scope="col">RTSP</th>
+				<th scope="col">Servicios</th>
+				<th scope="col">Vista</th>
+				<th scope="col">Editar</th>
+				<th scope="col">Eliminar</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for camera in cameras %}
+				<tr>
+					<th scope="row">{{ camera.camera_id }}</th>
+					<td>{{camera.name}}</td>
+					<td>{{camera.rtsp}}</td>
+					<td>
+						{% if camera.peop_c_service %}
+							Conteo de personas
+						{% elif camera.face_rec_service %}
+							Reconocimiento facial
+						{% elif camera.vehicules_service %}
+							Lectura de placas vehiculares
+						{% else %}
+							Sin servicios activos
+						{% endif %}
+					</td>
+					<td>
+						<form action="{% url 'send_message' %}" method="post" id="watchCamera_form">
+							{% csrf_token %}
+							<input type="hidden" name="camera_id" value="{{ camera.camera_id }}">
+							<button class="btn btn-secondary btn-logo" id="watchCameraForm_btn">
+								<span class="material-symbols-outlined">visibility</span>
+							</button>
+						</form>
+					</td>
+					<td>
+						<button class="btn btn-primary btn-logo" data-camera-id="{{camera.camera_id}}">
+							<span class="material-symbols-outlined">edit</span>
+						</button>
+					</td>
+					<td>
+						<button class="btn btn-danger btn-logo" data-coreui-toggle="modal" data-coreui-target="#deleteCameraModal" data-camera-id="{{camera.camera_id}}" data-camera-name="{{camera.name}}">
+							<span class="material-symbols-outlined">delete</span>
+						</button>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 </div>
-{% endif %}
+<br>
 
-<!-- Modal -->
-<div
-	class="modal fade modal-lg"
-	id="exampleModal"
-	tabindex="-1"
-	aria-labelledby="exampleModalLabel"
-	aria-hidden="true"
->
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">
-					Agregar cámara
-				</h5>
-				<button
-					type="button"
-					class="btn-close"
-					data-coreui-dismiss="modal"
-					aria-label="Close"
-				></button>
-			</div>
-			<div class="modal-body">
-				<form method="post">
-					{% csrf_token %}
-					<div>{{ form.name.label_tag }} {{ form.name }}</div>
-					<div>{{ form.email.label_tag }} {{ form.email }}</div>
-					<button type="submit">Submit</button>
-				</form>
-
-				<div class="mb-3">
-					<label for="exampleFormControlInput1" class="form-label">
-						Nombre de camara
-					</label>
-					<input
-						type="name"
-						class="form-control"
-						id="exampleFormControlInput1"
-						placeholder="name@example.com"
-					/>
-				</div>
-				<div class="mb-3">
-					<label for="exampleFormControlTextarea1" class="form-label">
-						Example textarea
-					</label>
-					<textarea
-						class="form-control"
-						id="exampleFormControlTextarea1"
-						rows="3"
-					></textarea>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button
-					type="button"
-					class="btn btn-secondary"
-					data-coreui-dismiss="modal"
-				>
-					Cancelar
-				</button>
-				<button type="button" class="btn btn-primary">Guardar</button>
-			</div>
+<div class="row">
+	{% if result and result != 'No response from server.' %}
+	<div class="row">
+		<div id="videoContainer" style="padding: 0">
+			<img id="videoFromCV" src="{% url 'video_feed' %}?result={{ result }}" />
 		</div>
 	</div>
+	{% endif %}
 </div>
+<br>
+
+<!-- Create Modal -->
+{% include 'cameras_admin/forms/create.html' %}
+
+<!-- Update Modal -->
+{% comment %} {% include 'cameras_admin/forms/update.html' %} {% endcomment %}
+
+<!-- Delete Modal -->
+{% include 'cameras_admin/forms/delete.html' %}
 
 {% endblock %}

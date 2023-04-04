@@ -1,0 +1,61 @@
+<div class="modal fade modal-lg" id="cameraFormModal" tabindex="-1" aria-labelledby="cameraFormModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="cameraFormModalLabel">
+					Agregar cámara
+				</h5>
+				<button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"/>
+			</div>
+			<div class="modal-body">
+				<form action="{% url 'create_camera' %}" method="post" id="createCamera_form">
+					{% csrf_token %}
+					<div class="mb-3">
+						<label for="cameraName_field" class="form-label">
+							Nombre de la cámara
+						</label>
+						<input type="text" class="form-control" id="cameraName_field" name="name" required />
+						<span class="invalid-feedback"/>
+					</div>
+
+					<div class="mb-3">
+						<label for="cameraRtsp_field" class="form-label">
+							RTSP
+						</label>
+						<input type="text" class="form-control" id="cameraRtsp_field" name="rtsp" required />
+						<span class="invalid-feedback"/>
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label">
+							Servicios
+						</label>
+						<div class="form-check form-switch">
+							<input type="checkbox" class="form-check-input" id="peop_c_service_checkbox" name="peop_c_service" role="switch" />
+							<label class="form-check-label" for="peop_c_service_checkbox">Contéo de personas</label>
+							<span class="invalid-feedback"/>
+						</div>
+						<div class="form-check form-switch">
+							<input type="checkbox" class="form-check-input" id="face_rec_checkbox" name="face_rec_service" role="switch" />
+							<label class="form-check-label" for="face_rec_checkbox">Reconocimiento facial</label>
+							<span class="invalid-feedback"/>
+						</div>
+						<div class="form-check form-switch">
+							<input type="checkbox" class="form-check-input" id="vehicules_checkbox" name="vehicules_service" role="switch" />
+							<label class="form-check-label" for="vehicules_checkbox">Registro de placas vehículares</label>
+							<span class="invalid-feedback"/>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-coreui-dismiss="modal" >
+					Cancelar
+				</button>
+				<button id="saveCamera_btn" type="button" class="btn btn-primary">
+					Guardar
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
