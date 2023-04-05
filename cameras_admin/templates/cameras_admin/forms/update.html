@@ -1,62 +1,69 @@
-<div class="modal fade modal-lg" id="cameraFormModal" tabindex="-1" aria-labelledby="cameraFormModalLabel" aria-hidden="true">
+<div class="modal fade modal-lg" id="editCameraModal" tabindex="-1" aria-labelledby="editCameraModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="cameraFormModalLabel">
-					Editar cámara
+				<h5 class="modal-title" id="editCameraModalLabel">
+					Editar cámara "{{cameraById.name}}"
 				</h5>
 				<button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"/>
 			</div>
 			<div class="modal-body">
-				<form action="{% url 'create_camera' %}" method="post" id="createCamera_form">
-					{% csrf_token %}
-
-					<input type="hidden" class="form-control" id="cameraId_field" name="camera_id" />
-
-					<div class="mb-3">
-						<label for="cameraName_field" class="form-label">
-							Nombre de la cámara
-						</label>
-						<input type="text" class="form-control" id="cameraName_field" name="name" required />
-						<span class="invalid-feedback"/>
-					</div>
-
-					<div class="mb-3">
-						<label for="cameraRtsp_field" class="form-label">
-							RTSP
-						</label>
-						<input type="text" class="form-control" id="cameraRtsp_field" name="rtsp" required />
-						<span class="invalid-feedback"/>
-					</div>
-
-					<div class="mb-3">
-						<label class="form-label">
-							Servicios
-						</label>
-						<div class="form-check form-switch">
-							<input type="checkbox" class="form-check-input" id="peop_c_service_checkbox" name="peop_c_service" role="switch" />
-							<label class="form-check-label" for="peop_c_service_checkbox">Contéo de personas</label>
-							<span class="invalid-feedback"/>
+				<div class="container">
+					<form action="{% url 'create_camera' %}" method="post" id="editCamera_form">
+						<div class="row">
+							{% csrf_token %}
+							<div class="col-3">
+								<div class="mb-3">
+									<label for="id_field" class="form-label">ID</label>
+									<input type="text" class="form-control" id="id_field" name="camera_id" required readonly />
+								</div>
+							</div>
+							<div class="col-9">
+								<div class="mb-3">
+									<label for="editName_field" class="form-label">Nombre de la cámara</label>
+									<input type="text" class="form-control" id="editName_field" name="name" required />
+									<span class="invalid-feedback"/>
+								</div>
+							</div>
+							<div class="col-12">
+								<div class="mb-3">
+									<label for="editRtsp_field" class="form-label">RTSP</label>
+									<input type="text" class="form-control" id="editRtsp_field" name="rtsp" required />
+									<span class="invalid-feedback"/>
+								</div>
+							</div>
+							<div class="col-12">
+								<div class="mb-3">
+									<label class="form-label">
+										Servicios
+									</label>
+									<div class="form-check form-switch">
+										<input type="checkbox" class="form-check-input" id="editPeopleCount_checkbox" name="peop_c_service" role="switch" />
+										<label class="form-check-label" for="editPeopleCount_checkbox">Contéo de personas</label>
+										<span class="invalid-feedback"/>
+									</div>
+									<div class="form-check form-switch">
+										<input type="checkbox" class="form-check-input" id="editFaceRec_checkbox" name="face_rec_service" role="switch" />
+										<label class="form-check-label" for="editFaceRec_checkbox">Reconocimiento facial</label>
+										<span class="invalid-feedback"/>
+									</div>
+									<div class="form-check form-switch">
+										<input type="checkbox" class="form-check-input" id="editVehicules_checkbox" name="vehicules_service" role="switch" />
+										<label class="form-check-label" for="editVehicules_checkbox">Registro de placas vehiculares</label>
+										<span class="invalid-feedback"/>
+									</div>
+								</div>
+							</div>
 						</div>
-						<div class="form-check form-switch">
-							<input type="checkbox" class="form-check-input" id="face_rec_checkbox" name="face_rec_service" role="switch" />
-							<label class="form-check-label" for="face_rec_checkbox">Reconocimiento facial</label>
-							<span class="invalid-feedback"/>
-						</div>
-						<div class="form-check form-switch">
-							<input type="checkbox" class="form-check-input" id="vehicules_checkbox" name="vehicules_service" role="switch" />
-							<label class="form-check-label" for="vehicules_checkbox">Registro de placas vehículares</label>
-							<span class="invalid-feedback"/>
-						</div>
-					</div>
-				</form>
+					</form>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-coreui-dismiss="modal" >
 					Cancelar
 				</button>
-				<button id="saveCamera_btn" type="button" class="btn btn-primary">
-					Guardar
+				<button id="editCamera_btn" type="button" class="btn btn-primary">
+					Editar
 				</button>
 			</div>
 		</div>

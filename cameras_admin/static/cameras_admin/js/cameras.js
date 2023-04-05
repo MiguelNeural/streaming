@@ -29,23 +29,19 @@ $(document).ready(function () {
 
 	$("#watchCameraForm_btn").click(function (e) {
 		e.preventDefault();
-		$("#watchCamera_form").submit();
+		//$("#watchCamera_form").submit();
 	});
-
-	// $("#cameraFormModal").on("show.coreui.modal", function (event) {
-	// 	let button = $(event.relatedTarget);
-	// 	button.each(function () {
-	// 		if (this.outerText == "edit") {
-	// 			$("#cameraId_field").val(button.data("camera-id"));
-	// 		} else {
-	// 			$("#cameraId_field").val(null);
-	// 		}
-	// 	});
-	// });
 
 	$("#deleteCameraModal").on("show.coreui.modal", function (event) {
 		let button = $(event.relatedTarget);
 		$("#deleteCameraId_input").val(button.data("camera-id"));
 		$("#camera_name_div").text(button.data("camera-name"));
 	});
+
+	function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); } 
+	if (isNumber(this.URL.split('/')[4])) {
+		console.log("Camera founded:", cameraById_json);
+		$("#editCameraModal").modal("show");
+		$("#id_field").val()
+	}
 });
