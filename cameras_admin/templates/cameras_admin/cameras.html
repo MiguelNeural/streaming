@@ -1,9 +1,9 @@
-{% extends "dashboard/index.html" %} {% block content %} {% load static %}
+{% extends "dashboard/index.html" %} {% block content %} {% load static %} {% load staticfiles %} {% load humanize %} {% load i18n %} {% load json_script from django.core.serializers.json %}
 <h1>Camaras</h1>
 
 <div class="row">
 	<div class="col-2">
-		<button type="button" class="btn btn-primary" data-coreui-toggle="modal" data-coreui-target="#cameraFormModal" >
+		<button type="button" class="btn btn-primary" data-coreui-toggle="modal" data-coreui-target="#createCameraModal" >
 			Agregar cámara
 		</button>
 	</div>
@@ -30,17 +30,18 @@
 					<td>{{camera.rtsp}}</td>
 					<td>
 						{% if camera.peop_c_service %}
-							Conteo de personas
+							Contéo de personas
 						{% elif camera.face_rec_service %}
 							Reconocimiento facial
 						{% elif camera.vehicules_service %}
-							Lectura de placas vehiculares
+							Registro de placas vehiculares
 						{% else %}
 							Sin servicios activos
 						{% endif %}
 					</td>
 					<td>
-						<form action="{% url 'send_message' %}" method="post" id="watchCamera_form">
+						{% comment %} <form action="{% url 'send_message' %}" method="post" id="watchCamera_form"> {% endcomment %}
+						<form action="" method="post" id="watchCamera_form">
 							{% csrf_token %}
 							<input type="hidden" name="camera_id" value="{{ camera.camera_id }}">
 							<button class="btn btn-secondary btn-logo" id="watchCameraForm_btn">
@@ -66,6 +67,33 @@
 <br>
 
 <div class="row">
+	{% if cameraById %}
+	<div class="row">
+		<h1>{{ cameraById }}</h1>
+		<tr>
+			<th scope="row">{{ cameraById.camera_id }}</th>
+			<td>{{cameraById.name}}</td>
+			<td>{{cameraById.rtsp}}</td>
+			<td>
+				{% if cameraById.peop_c_service %}
+					Contéo de personas
+				{% elif cameraById.face_rec_service %}
+					Reconocimiento facial
+				{% elif cameraById.vehicules_service %}
+					Registro de placas vehiculares
+				{% else %}
+					Sin servicios activos
+				{% endif %}
+			</td>
+		</tr>
+	</div>
+	{% endif %}
+</div>
+<br>
+
+{% json_script cameraById_json 'cameraById_json' %}
+
+<div class="row">
 	{% if result and result != 'No response from server.' %}
 	<div class="row">
 		<div id="videoContainer" style="padding: 0">
@@ -80,7 +108,7 @@
 {% include 'cameras_admin/forms/create.html' %}
 
 <!-- Update Modal -->
-{% comment %} {% include 'cameras_admin/forms/update.html' %} {% endcomment %}
+{% include 'cameras_admin/forms/update.html' %}
 
 <!-- Delete Modal -->
 {% include 'cameras_admin/forms/delete.html' %}
