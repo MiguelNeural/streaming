@@ -4,6 +4,7 @@ from django.views.decorators import gzip
 from django.http import StreamingHttpResponse
 from django.urls import reverse
 from django.core import serializers
+from django.core.paginator import Paginator
 from django.utils import timezone
 from .modules.camera import VideoCamera, gen
 from .modules.forms import CreateCamera_form
@@ -12,9 +13,14 @@ from .models import Camera
 # Create your views here.
 def cameras(request):
     cameras = Camera.objects.filter(deleted__isnull=True)
+    p = Paginator(cameras, 10)
+    page = request.GET.get('page')
+    cameras_list = p.get_page(page)
+    
     data = {
         'form': CreateCamera_form(),
-        'cameras': cameras
+        'cameras': cameras,
+        'cameras_list': cameras_list,
     }
     if request.method == 'GET':
         data["show_alert"] = request.GET.get('show_alert', '')
