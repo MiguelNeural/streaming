@@ -1,4 +1,4 @@
-{% extends "dashboard/index.html" %} {% block content %} {% load static %} {% load staticfiles %} {% load humanize %} {% load i18n %} {% load json_script from django.core.serializers.json %}
+{% extends "dashboard/index.html" %} {% block content %} {% load static %}
 <h1>Camaras</h1>
 
 <div class="row">
@@ -14,6 +14,7 @@
 		<thead>
 			<tr>
 				<th scope="col">#</th>
+				<th scope="col">ID</th>
 				<th scope="col">Cámara</th>
 				<th scope="col">RTSP</th>
 				<th scope="col">Servicios</th>
@@ -25,7 +26,8 @@
 		<tbody>
 			{% for camera in cameras %}
 				<tr>
-					<th scope="row">{{ camera.camera_id }}</th>
+					<th scope="row">{{ forloop.counter }}</th>
+					<th>{{ camera.camera_id }}</th>
 					<td>{{camera.name}}</td>
 					<td>{{camera.rtsp}}</td>
 					<td>
@@ -33,7 +35,7 @@
 							Contéo de personas
 						{% elif camera.face_rec_service %}
 							Reconocimiento facial
-						{% elif camera.vehicules_service %}
+						{% elif camera.vehicles_service %}
 							Registro de placas vehiculares
 						{% else %}
 							Sin servicios activos
@@ -50,48 +52,40 @@
 						</form>
 					</td>
 					<td>
-						<button class="btn btn-primary btn-logo" data-camera-id="{{camera.camera_id}}">
+						<a href="{% url 'edit_camera' id=camera.camera_id %}" class="btn btn-primary">
 							<span class="material-symbols-outlined">edit</span>
-						</button>
+						</a>
 					</td>
 					<td>
-						<button class="btn btn-danger btn-logo" data-coreui-toggle="modal" data-coreui-target="#deleteCameraModal" data-camera-id="{{camera.camera_id}}" data-camera-name="{{camera.name}}">
+						<a href="{% url 'delete_camera' id=camera.camera_id %}" class="btn btn-danger">
 							<span class="material-symbols-outlined">delete</span>
-						</button>
+						</a>
 					</td>
 				</tr>
 			{% endfor %}
 		</tbody>
 	</table>
 </div>
-<br>
-
 <div class="row">
-	{% if cameraById %}
-	<div class="row">
-		<h1>{{ cameraById }}</h1>
-		<tr>
-			<th scope="row">{{ cameraById.camera_id }}</th>
-			<td>{{cameraById.name}}</td>
-			<td>{{cameraById.rtsp}}</td>
-			<td>
-				{% if cameraById.peop_c_service %}
-					Contéo de personas
-				{% elif cameraById.face_rec_service %}
-					Reconocimiento facial
-				{% elif cameraById.vehicules_service %}
-					Registro de placas vehiculares
-				{% else %}
-					Sin servicios activos
-				{% endif %}
-			</td>
-		</tr>
-	</div>
+	Cameras list: {{ cameras_list }} <br>
+	Has previous: {{ cameras_list.has_previous }} <br>
+	Has next: {{ cameras_list.has_next }} <br>
+	Current page: {{ cameras_list.number }} <br>
+	Number of pages: {{ cameras_list.paginator.num_pages }} <br>
+	Paginator: {{ cameras_list.paginator }}<br>
+</div>
+<div class="content">
+	{% if cameras_list.has_previous %}
+		<a href="?page=1">&laquo First</a>
+		<a href="?page={{ cameras_list.previous_page_number }}">Previous</a>
+	{% endif %}
+	Page {{ cameras_list.number }} of {{ cameras_list.paginator.num_pages }}
+	{% if cameras_list.has_next %}
+		<a href="?page={{ cameras_list.next_page_number}}">Next</a>
+		<a href="?page={{ cameras_list.paginator.num_pages }}">Last &raquo</a>
 	{% endif %}
 </div>
 <br>
-
-{% json_script cameraById_json 'cameraById_json' %}
 
 <div class="row">
 	{% if result and result != 'No response from server.' %}

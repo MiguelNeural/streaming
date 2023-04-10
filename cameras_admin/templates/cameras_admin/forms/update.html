@@ -9,7 +9,8 @@
 			</div>
 			<div class="modal-body">
 				<div class="container">
-					<form action="{% url 'create_camera' %}" method="post" id="editCamera_form">
+					<input type="hidden" id="cameraJSON" value="{{cameraById_json}}">
+					<form action="" method="post" id="editCamera_form">
 						<div class="row">
 							{% csrf_token %}
 							<div class="col-3">
@@ -48,8 +49,8 @@
 										<span class="invalid-feedback"/>
 									</div>
 									<div class="form-check form-switch">
-										<input type="checkbox" class="form-check-input" id="editVehicules_checkbox" name="vehicules_service" role="switch" />
-										<label class="form-check-label" for="editVehicules_checkbox">Registro de placas vehiculares</label>
+										<input type="checkbox" class="form-check-input" id="editVehicles_checkbox" name="vehicles_service" role="switch" />
+										<label class="form-check-label" for="editVehicles_checkbox">Registro de placas vehiculares</label>
 										<span class="invalid-feedback"/>
 									</div>
 								</div>
