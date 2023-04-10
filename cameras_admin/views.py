@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 import multiprocessing.connection
 from django.views.decorators import gzip
 from django.http import StreamingHttpResponse
@@ -7,7 +7,6 @@ from django.core import serializers
 from .modules.camera import VideoCamera, gen
 from .modules.forms import CreateCamera_form
 from .models import Camera
-import json
 
 # Create your views here.
 def cameras(request):
@@ -74,7 +73,7 @@ def create_camera(request):
         }
         return render(request, 'cameras_admin/cameras.html', data)
     
-def fillForm_camera(request, id):
+def edit_camera(request, id):
     cameras = Camera.objects.filter(deleted__isnull=True)
     try:
         cameraById = Camera.objects.filter(pk=id, deleted__isnull=True).first()
@@ -87,9 +86,32 @@ def fillForm_camera(request, id):
         'cameraById': cameraById,
         'cameraById_json': cameraById_json,
     }
+    
+    if request.method == 'POST':
+        form = CreateCamera_form(request.POST)
+        if form.is_valid():
+            cameraById.name = request.POST.get('name')
+            cameraById.rtsp = request.POST.get('rtsp')
+            if(request.POST.get("peop_c_service")):
+                cameraById.peop_c_service = True
+            else:
+                cameraById.peop_c_service = False
+            if(request.POST.get("face_rec_service")):
+                cameraById.face_rec_service = True
+            else:
+                cameraById.face_rec_service = False
+            if(request.POST.get("vehicles_service")):
+                cameraById.vehicles_service = True
+            else:
+                cameraById.vehicles_service = False
+            cameraById.save()
+            
+            message = "Cámara editada correctamente"
+            show_alert = "success"
+            url = reverse('cameras') + f"?message={message}&show_alert={show_alert}"
+            return redirect (url)
+    
     return render(request, 'cameras_admin/cameras.html', data)
-
-
 
 def delete_camera(request):
     cameras = Camera.objects.filter(deleted__isnull=True)
