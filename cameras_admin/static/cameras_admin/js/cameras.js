@@ -44,7 +44,7 @@ $(document).ready(function () {
 		const cameraJson = JSON.parse($("#cameraJSON").val())[0];
 		const peopleCount = $("#editPeopleCount_checkbox");
 		const faceRec = $("#editFaceRec_checkbox");
-		const vehicles = $("#editvehicles_checkbox");
+		const vehicles = $("#editVehicles_checkbox");
 
 		$("#id_field").val(cameraJson.pk);
 		$("#editName_field").val(cameraJson.fields.name);
