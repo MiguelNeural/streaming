@@ -25,7 +25,7 @@ urlpatterns = [
     path('cameras/', cam_views.cameras, name='cameras'),
     path('cameras/created/', cam_views.create_camera, name='create_camera'),
     path('cameras/<id>/', cam_views.edit_camera, name='edit_camera'),
-    path('cameras/delete', cam_views.delete_camera, name='delete_camera'),
+    path('cameras/delete/<id>/', cam_views.delete_camera, name='delete_camera'),
     
     path('send_message/', cam_views.send_message, name='send_message'),
     
