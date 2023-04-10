@@ -74,16 +74,22 @@ def create_camera(request):
         }
         return render(request, 'cameras_admin/cameras.html', data)
     
-def edit_camera(request, id):
+def fillForm_camera(request, id):
     cameras = Camera.objects.filter(deleted__isnull=True)
-    cameraById = Camera.objects.filter(pk=id, deleted__isnull=True).first()
-    cameraById_json = serializers.serialize('json', [cameraById])
+    try:
+        cameraById = Camera.objects.filter(pk=id, deleted__isnull=True).first()
+        cameraById_json = serializers.serialize('json', [cameraById])
+    except:
+        return redirect('cameras')
+    
     data = {
         'cameras': cameras,
         'cameraById': cameraById,
         'cameraById_json': cameraById_json,
     }
     return render(request, 'cameras_admin/cameras.html', data)
+
+
 
 def delete_camera(request):
     cameras = Camera.objects.filter(deleted__isnull=True)
