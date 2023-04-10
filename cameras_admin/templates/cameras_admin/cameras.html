@@ -14,6 +14,7 @@
 		<thead>
 			<tr>
 				<th scope="col">#</th>
+				<th scope="col">ID</th>
 				<th scope="col">Cámara</th>
 				<th scope="col">RTSP</th>
 				<th scope="col">Servicios</th>
@@ -25,7 +26,8 @@
 		<tbody>
 			{% for camera in cameras %}
 				<tr>
-					<th scope="row">{{ camera.camera_id }}</th>
+					<th scope="row">{{ forloop.counter }}</th>
+					<th>{{ camera.camera_id }}</th>
 					<td>{{camera.name}}</td>
 					<td>{{camera.rtsp}}</td>
 					<td>
