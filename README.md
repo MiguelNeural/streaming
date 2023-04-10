@@ -1,7 +1,7 @@
 # Streaming Neural10
 ## Iniciando un proyecto
 - Instalar el entorno virtual pipenv:
-`pipenv install django django-ckedit Pillow pylint pylint-django mysqlclient opencv-python`
+`pipenv install django django-ckedit Pillow pylint pylint-django mysqlclient opencv-python dj-static`
 
 - Iniciar el entorno virtual:
 `pipenv shell`
