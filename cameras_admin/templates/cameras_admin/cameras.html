@@ -33,7 +33,7 @@
 							Contéo de personas
 						{% elif camera.face_rec_service %}
 							Reconocimiento facial
-						{% elif camera.vehicules_service %}
+						{% elif camera.vehicles_service %}
 							Registro de placas vehiculares
 						{% else %}
 							Sin servicios activos
@@ -50,9 +50,9 @@
 						</form>
 					</td>
 					<td>
-						<button class="btn btn-primary btn-logo" data-camera-id="{{camera.camera_id}}">
+						<a href="{% url 'edit_camera' id=camera.camera_id %}" class="btn btn-primary">
 							<span class="material-symbols-outlined">edit</span>
-						</button>
+						</a>
 					</td>
 					<td>
 						<button class="btn btn-danger btn-logo" data-coreui-toggle="modal" data-coreui-target="#deleteCameraModal" data-camera-id="{{camera.camera_id}}" data-camera-name="{{camera.name}}">
