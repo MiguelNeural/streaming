@@ -55,9 +55,9 @@
 						</a>
 					</td>
 					<td>
-						<button class="btn btn-danger btn-logo" data-coreui-toggle="modal" data-coreui-target="#deleteCameraModal" data-camera-id="{{camera.camera_id}}" data-camera-name="{{camera.name}}">
+						<a href="{% url 'delete_camera' id=camera.camera_id %}" class="btn btn-danger">
 							<span class="material-symbols-outlined">delete</span>
-						</button>
+						</a>
 					</td>
 				</tr>
 			{% endfor %}
