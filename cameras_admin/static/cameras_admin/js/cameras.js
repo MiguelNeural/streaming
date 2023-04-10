@@ -32,12 +32,6 @@ $(document).ready(function () {
 		//$("#watchCamera_form").submit();
 	});
 
-	$("#deleteCameraModal").on("show.coreui.modal", function (event) {
-		const button = $(event.relatedTarget);
-		$("#deleteCameraId_input").val(button.data("camera-id"));
-		$("#camera_name_div").text(button.data("camera-name"));
-	});
-
 	function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); } 
 	
 	if (isNumber(this.URL.split('/')[4])) {
@@ -86,5 +80,16 @@ $(document).ready(function () {
 				});
 			});
 		}
+	});
+
+	if (this.URL.split('/')[4] == "delete") {
+		$("#deleteCameraId_input").val(this.URL.split('/')[5]);
+		$("#deleteCameraModal").modal("show");
+	}
+
+	$("#deleteCamera_btn").click(function (e) {
+		e.preventDefault();
+		form = $("#deleteCamera_form");
+		form.submit();
 	});
 });
