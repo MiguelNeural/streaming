@@ -4,6 +4,7 @@ from django.views.decorators import gzip
 from django.http import StreamingHttpResponse
 from django.urls import reverse
 from django.core import serializers
+from django.utils import timezone
 from .modules.camera import VideoCamera, gen
 from .modules.forms import CreateCamera_form
 from .models import Camera
@@ -113,9 +114,25 @@ def edit_camera(request, id):
     
     return render(request, 'cameras_admin/cameras.html', data)
 
-def delete_camera(request):
+def delete_camera(request, id):
     cameras = Camera.objects.filter(deleted__isnull=True)
+    try:
+        cameraById = Camera.objects.filter(pk=id, deleted__isnull=True).first()
+    except:
+        return redirect('cameras')
+    
     data = {
-        'cameras': cameras
+        'cameras': cameras,
+        'cameraById': cameraById,
     }
+    
+    if request.method == 'POST':
+        cameraById.deleted = timezone.now()
+        cameraById.save()
+        
+        message = "Cámara eliminada correctamente"
+        show_alert = "success"
+        url = reverse('cameras') + f"?message={message}&show_alert={show_alert}"
+        return redirect (url)
+    
     return render(request, 'cameras_admin/cameras.html', data)
