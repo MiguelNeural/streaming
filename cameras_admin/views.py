@@ -11,17 +11,22 @@ from .modules.forms import CreateCamera_form
 from .models import Camera
 
 # Create your views here.
-def cameras(request):
-    cameras = Camera.objects.filter(deleted__isnull=True)
-    p = Paginator(cameras, 10)
+def paginator(request, directory):
+    p = Paginator(directory, 10)
     page = request.GET.get('page')
     cameras_list = p.get_page(page)
-    
-    data = {
-        'form': CreateCamera_form(),
-        'cameras': cameras,
+    pages = range(1, cameras_list.paginator.num_pages + 1)
+    many_pages = [page for page in range(max(cameras_list.number-3, 1), min(cameras_list.number+4, cameras_list.paginator.num_pages+1))]
+    return {
         'cameras_list': cameras_list,
+        'pages': pages,
+        'many_pages': many_pages,
     }
+
+def cameras(request):
+    cameras = Camera.objects.filter(deleted__isnull=True)
+    data = paginator(request, cameras)
+    data['form'] = CreateCamera_form()
     if request.method == 'GET':
         data["show_alert"] = request.GET.get('show_alert', '')
         data["message"] = request.GET.get('message', '')
@@ -82,17 +87,15 @@ def create_camera(request):
     
 def edit_camera(request, id):
     cameras = Camera.objects.filter(deleted__isnull=True)
+    data = paginator(request, cameras)
     try:
         cameraById = Camera.objects.filter(pk=id, deleted__isnull=True).first()
         cameraById_json = serializers.serialize('json', [cameraById])
     except:
         return redirect('cameras')
     
-    data = {
-        'cameras': cameras,
-        'cameraById': cameraById,
-        'cameraById_json': cameraById_json,
-    }
+    data['cameraById'] = cameraById
+    data['cameraById_json'] = cameraById_json
     
     if request.method == 'POST':
         form = CreateCamera_form(request.POST)
@@ -122,15 +125,14 @@ def edit_camera(request, id):
 
 def delete_camera(request, id):
     cameras = Camera.objects.filter(deleted__isnull=True)
+    data = paginator(request, cameras)
     try:
         cameraById = Camera.objects.filter(pk=id, deleted__isnull=True).first()
     except:
         return redirect('cameras')
     
-    data = {
-        'cameras': cameras,
-        'cameraById': cameraById,
-    }
+    data['cameras'] = cameras
+    data['cameraById'] = cameraById
     
     if request.method == 'POST':
         cameraById.deleted = timezone.now()
