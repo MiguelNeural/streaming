@@ -136,8 +136,10 @@ def rtsp_camera(request, id):
         cameraById = Camera.objects.filter(pk=id, deleted__isnull=True).first()
     except:
         return redirect('cameras')
-    rtsp_camera = cameraById.rtsp
-    data = {'rtsp': rtsp_camera}
+    data = {
+        'camera_name': cameraById.name,
+        'rtsp': cameraById.rtsp,
+    }
     return render(request, 'cameras_admin/rtsp.html', data)
 
 # GENERAR VIDEO POR RTSP
