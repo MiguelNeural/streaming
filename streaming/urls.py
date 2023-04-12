@@ -23,6 +23,7 @@ urlpatterns = [
     path('dashboard/', dash_views.index, name="dashboard"),
     path('cameras/', include('cameras_admin.urls')),
     path('video_feed/', video_feed, name='video_feed'),
+    path('members/', include('members.urls')),
     
     path('admin/', admin.site.urls),
 ]
