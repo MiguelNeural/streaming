@@ -12,8 +12,8 @@
 <div class="row">
 	{% if rtsp and rtsp != 'No response from server.' %}
 	<div class="row">
-		<div id="videoContainer" style="padding: 0">
-			<img id="videoFromCV" src="{% url 'video_feed' %}?rtsp={{ rtsp }}" />
+		<div id="videoContainer">
+			<img src="{% url 'video_feed' %}?rtsp={{ rtsp }}" />
 		</div>
 	</div>
 	{% endif %}
