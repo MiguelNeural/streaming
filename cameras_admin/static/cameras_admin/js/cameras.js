@@ -27,11 +27,6 @@ $(document).ready(function () {
 		$('input[type="checkbox"]').not(this).prop('checked', false);
 	});
 
-	$("#watchCameraForm_btn").click(function (e) {
-		e.preventDefault();
-		//$("#watchCamera_form").submit();
-	});
-
 	function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); } 
 	
 	if (isNumber(this.URL.split('/')[4])) {

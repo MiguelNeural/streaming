@@ -14,22 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from dashboard import views as dash_views
-from cameras_admin import views as cam_views
+from cameras_admin.views import video_feed
 
 urlpatterns = [
     path('', dash_views.blank, name='blank'),
     path('dashboard/', dash_views.index, name="dashboard"),
-    
-    path('cameras/', cam_views.cameras, name='cameras'),
-    path('cameras/created/', cam_views.create_camera, name='create_camera'),
-    path('cameras/<id>/', cam_views.edit_camera, name='edit_camera'),
-    path('cameras/delete/<id>/', cam_views.delete_camera, name='delete_camera'),
-    
-    path('send_message/', cam_views.send_message, name='send_message'),
-    
-    path('video_feed/', cam_views.video_feed, name='video_feed'),
+    path('cameras/', include('cameras_admin.urls')),
+    path('video_feed/', video_feed, name='video_feed'),
+    path('members/', include('members.urls')),
     
     path('admin/', admin.site.urls),
 ]

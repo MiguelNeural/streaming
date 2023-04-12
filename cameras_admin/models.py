@@ -15,5 +15,3 @@ class Camera(models.Model):
         app_label = 'cameras_admin'
         db_table = 'cameras'
         managed = False
-    using = 'neuralDB'
-    

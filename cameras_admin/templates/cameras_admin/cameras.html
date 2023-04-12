@@ -24,9 +24,9 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% for camera in cameras %}
+			{% for camera in cameras_list %}
 				<tr>
-					<th scope="row">{{ forloop.counter }}</th>
+					<th scope="row">{{ cameras_list.start_index|add:forloop.counter0 }}</th>
 					<th>{{ camera.camera_id }}</th>
 					<td>{{camera.name}}</td>
 					<td>{{camera.rtsp}}</td>
@@ -42,22 +42,17 @@
 						{% endif %}
 					</td>
 					<td>
-						{% comment %} <form action="{% url 'send_message' %}" method="post" id="watchCamera_form"> {% endcomment %}
-						<form action="" method="post" id="watchCamera_form">
-							{% csrf_token %}
-							<input type="hidden" name="camera_id" value="{{ camera.camera_id }}">
-							<button class="btn btn-secondary btn-logo" id="watchCameraForm_btn">
-								<span class="material-symbols-outlined">visibility</span>
-							</button>
-						</form>
+						<a href="{% url 'rtsp_camera' id=camera.camera_id %}" class="btn btn-secondary">
+							<span class="material-symbols-outlined">visibility</span>
+						</a>
 					</td>
 					<td>
-						<a href="{% url 'edit_camera' id=camera.camera_id %}" class="btn btn-primary">
+						<a href="{% url 'edit_camera' id=camera.camera_id %}?page={{ cameras_list.number }}" class="btn btn-primary">
 							<span class="material-symbols-outlined">edit</span>
 						</a>
 					</td>
 					<td>
-						<a href="{% url 'delete_camera' id=camera.camera_id %}" class="btn btn-danger">
+						<a href="{% url 'delete_camera' id=camera.camera_id %}?page={{ cameras_list.number }}" class="btn btn-danger">
 							<span class="material-symbols-outlined">delete</span>
 						</a>
 					</td>
@@ -66,37 +61,52 @@
 		</tbody>
 	</table>
 </div>
-<div class="row">
-	Cameras list: {{ cameras_list }} <br>
-	Has previous: {{ cameras_list.has_previous }} <br>
-	Has next: {{ cameras_list.has_next }} <br>
-	Current page: {{ cameras_list.number }} <br>
-	Number of pages: {{ cameras_list.paginator.num_pages }} <br>
-	Paginator: {{ cameras_list.paginator }}<br>
-</div>
-<div class="content">
-	{% if cameras_list.has_previous %}
-		<a href="?page=1">&laquo First</a>
-		<a href="?page={{ cameras_list.previous_page_number }}">Previous</a>
-	{% endif %}
-	Page {{ cameras_list.number }} of {{ cameras_list.paginator.num_pages }}
-	{% if cameras_list.has_next %}
-		<a href="?page={{ cameras_list.next_page_number}}">Next</a>
-		<a href="?page={{ cameras_list.paginator.num_pages }}">Last &raquo</a>
-	{% endif %}
-</div>
-<br>
 
 <div class="row">
-	{% if result and result != 'No response from server.' %}
-	<div class="row">
-		<div id="videoContainer" style="padding: 0">
-			<img id="videoFromCV" src="{% url 'video_feed' %}?result={{ result }}" />
-		</div>
+	<div class="content">
+		<nav aria-label="Page navigation example">
+			<ul class="pagination">
+				<li class="page-item">
+					<a class="page-link" href="{% url 'cameras' %}?page=1">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+				{% if cameras_list.has_previous %}
+				<li class="page-item"><a class="page-link" href="{% url 'cameras' %}?page={{ cameras_list.previous_page_number }}">&#139</a></li>
+				{% else %}
+				<li class="page-item disabled"><a class="page-link" >&#139</a></li>
+				{% endif %}
+
+				{% if cameras_list.paginator.num_pages <= 6 %}
+					{% for i in pages %}
+						<li class="page-item {% if cameras_list.number == i %} active {% endif %} ">
+							<a class="page-link" href="{% url 'cameras' %}?page={{i}}">{{i}}</a>
+						</li>
+					{% endfor %}
+				{% else %}
+					<li class="page-item disabled"><a class="page-link">...</a></li>
+					{% for i in many_pages %}
+						<li class="page-item {% if cameras_list.number == i %} active {% endif %} ">
+							<a class="page-link" href="{% url 'cameras' %}?page={{i}}">{{i}}</a>
+						</li>
+					{% endfor %}
+					<li class="page-item disabled"><a class="page-link">...</a></li>
+				{% endif %}
+
+				{% if cameras_list.has_next %}
+				<li class="page-item"><a class="page-link" href="{% url 'cameras' %}?page={{ cameras_list.next_page_number }}">&#155</a></li>
+				{% else %}
+				<li class="page-item disabled"><a class="page-link">&#155</a></li>
+				{% endif %}
+				<li class="page-item">
+					<a class="page-link" href="{% url 'cameras' %}?page={{ cameras_list.paginator.num_pages }}">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
+			</ul>
+		</nav>
 	</div>
-	{% endif %}
 </div>
-<br>
 
 <!-- Create Modal -->
 {% include 'cameras_admin/forms/create.html' %}
