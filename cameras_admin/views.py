@@ -32,32 +32,6 @@ def cameras(request):
         data["message"] = request.GET.get('message', '')
         
     return render(request, 'cameras_admin/cameras.html', data)
-
-def send_message(request):
-    address = ('192.168.15.103', 6000)
-    conn = multiprocessing.connection.Client(address, authkey=b'secret password')
-    data = 'rtsp://root:Aegis4040@192.168.5.35/live.sdp'
-    conn.send(data)
-    timeout = 15  # set a timeout of 5 seconds
-    while True:
-        if conn.poll(timeout):
-            result = conn.recv()
-            break
-        else:
-            result = 'No response from server.'
-            break
-    context = {'result': result}
-    return render(request, 'cameras_admin/cameras.html', context)
-
-# GENERAR VIDEO POR RTSP
-@gzip.gzip_page
-def video_feed(request):
-    result = request.GET.get('result', '')
-    try:
-        cam = VideoCamera(str(result))
-        return StreamingHttpResponse(gen(cam), content_type="multipart/x-mixed-replace;boundary=frame")
-    except:  # This is bad! replace it with proper handling
-        pass
     
 def create_camera(request):
     if request.method == 'POST':
@@ -144,3 +118,34 @@ def delete_camera(request, id):
         return redirect (url)
     
     return render(request, 'cameras_admin/cameras.html', data)
+
+def rtsp_camera(request, id):
+    #address = ('192.168.15.103', 6000)
+    #conn = multiprocessing.connection.Client(address, authkey=b'secret password')
+    #data = 'rtsp://root:Aegis4040@192.168.5.35/live.sdp'
+    #conn.send(data)
+    #timeout = 15  # set a timeout of seconds
+    #while True:
+    #    if conn.poll(timeout):
+    #        result = conn.recv()
+    #        break
+    #    else:
+    #        result = 'No response from server.'
+    #        break
+    try:
+        cameraById = Camera.objects.filter(pk=id, deleted__isnull=True).first()
+    except:
+        return redirect('cameras')
+    rtsp_camera = cameraById.rtsp
+    data = {'rtsp': rtsp_camera}
+    return render(request, 'cameras_admin/rtsp.html', data)
+
+# GENERAR VIDEO POR RTSP
+@gzip.gzip_page
+def video_feed(request):
+    rtsp = request.GET.get('rtsp', '')
+    try:
+        cam = VideoCamera(str(rtsp))
+        return StreamingHttpResponse(gen(cam), content_type="multipart/x-mixed-replace;boundary=frame")
+    except:  # This is bad! replace it with proper handling
+        pass
