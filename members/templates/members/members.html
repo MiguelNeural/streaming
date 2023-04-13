@@ -28,7 +28,17 @@
 					<th scope="row">{{ members_list.start_index|add:forloop.counter0 }}</th>
 					<th>{{ member.member_id }}</th>
 					<td>{{member.name}}</td>
-					<td class="text-capitalize">{{member.role}}</td>
+					<td>
+                        {% if member.role == 'owner' %}
+                        Dios
+                        {% elif member.role == 'admin' %}
+                        Administrador
+                        {% elif member.role == 'technician' %}
+                        Tecnico
+                        {% elif member.role == 'operator' %}
+                        Operador
+                        {% endif %}
+                    </td>
 					<td>
 						<a href="#" class="btn btn-primary">
 							<span class="material-symbols-outlined">edit</span>
