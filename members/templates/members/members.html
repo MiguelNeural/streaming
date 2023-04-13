@@ -40,12 +40,12 @@
                         {% endif %}
                     </td>
 					<td>
-						<a href="#" class="btn btn-primary">
+						<a href="{% url 'edit_member' id=member.member_id %}?page={{ members_list.number }}" class="btn btn-primary {% if member.role == 'owner' %} disabled {% endif %}">
 							<span class="material-symbols-outlined">edit</span>
 						</a>
 					</td>
 					<td>
-						<a href="#" class="btn btn-danger {% if member.role == 'owner' %} disabled {% endif %}">
+						<a href="{% url 'members' %}" class="btn btn-danger {% if member.role == 'owner' %} disabled {% endif %}">
 							<span class="material-symbols-outlined">delete</span>
 						</a>
 					</td>
@@ -61,7 +61,7 @@
 {% include 'members/forms/create.html' %}
 
 <!-- Update Modal -->
-{% comment %} {% include 'members/forms/update.html' %} {% endcomment %}
+{% include 'members/forms/update.html' %}
 
 <!-- Delete Modal -->
 {% comment %} {% include 'members/forms/delete.html' %} {% endcomment %}
