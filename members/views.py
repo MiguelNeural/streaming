@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
+from django.core import serializers
 from django.urls import reverse
 from .models import Member as Member_mdl
 from .modules.forms import Member_form
@@ -45,3 +46,38 @@ def create_member(request):
         members = Member_mdl.objects.filter(deleted__isnull=True)
         data = { 'members': members, }
         return render(request, 'members/members.html', data)
+    
+def edit_member(request, id):
+    members = Member_mdl.objects.filter(deleted__isnull=True)
+    data = paginator(request, members)
+    try:
+        memberById = Member_mdl.objects.filter(pk=id, deleted__isnull=True).first()
+        memberById_json = serializers.serialize('json', [memberById])
+    except:
+        message = "Usuario no encontrado en base de datos"
+        show_alert = "success"
+        url = reverse('members') + f"?message={message}&show_alert={show_alert}"
+        return redirect (url)
+    
+    data['memberById'] = memberById
+    data['memberById_json'] = memberById_json
+    
+    if request.method == 'POST':
+        form = Member_form(request.POST)
+        if form.is_valid():
+            memberById.name = request.POST.get('name')
+            memberById.password = request.POST.get('password')
+            memberById.role = request.POST.get('role')
+            memberById.save()
+            
+            message = "Usuario editado correctamente"
+            show_alert = "success"
+            url = reverse('members') + f"?message={message}&show_alert={show_alert}"
+            return redirect (url)
+        else:
+            message = "Error editando el usuario"
+            show_alert = "error"
+            url = reverse('members') + f"?message={message}&show_alert={show_alert}"
+            return redirect (url)
+            
+    return render(request, 'members/members.html', data)
