@@ -48,19 +48,18 @@
 		<script src="{% static 'dashboard/js/main.js' %}"></script>
 		<!-- My JavaScripts-->
 		<script src="{% static 'cameras_admin/js/cameras.js' %}"></script>
+		<script src="{% static 'members/js/members.js' %}"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.6/dist/sweetalert2.min.js"></script>
 
-		{% if show_alert %}
+		{% if show_alert and message %}
 			<script>
-				if('{{ show_alert }}' == 'success') {
-					Swal.fire({
-						title: 'Guardado',
-						text: '{{ message }}',
-						icon: 'success',
-						timer: 3000, // 3 seconds
-						showConfirmButton: false,
-					});
-				}
+				Swal.fire({
+					title: 'Guardado',
+					text: '{{ message }}',
+					icon: '{{ show_alert }}',
+					timer: 3000, // 3 seconds
+					showConfirmButton: false,
+				});
 			</script>
 		{% endif %}
 	</body>

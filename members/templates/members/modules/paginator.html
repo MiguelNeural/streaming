@@ -1,0 +1,47 @@
+<div class="row">
+	<div class="content">
+        {% if members_list %}
+		<nav aria-label="Page navigation example">
+			<ul class="pagination">
+				<li class="page-item">
+					<a class="page-link" href="{% url 'members' %}?page=1">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+				{% if members_list.has_previous %}
+				<li class="page-item"><a class="page-link" href="{% url 'members' %}?page={{ members_list.previous_page_number }}">&#139</a></li>
+				{% else %}
+				<li class="page-item disabled"><a class="page-link" >&#139</a></li>
+				{% endif %}
+
+				{% if members_list.paginator.num_pages <= 6 %}
+					{% for i in pages %}
+						<li class="page-item {% if members_list.number == i %} active {% endif %} ">
+							<a class="page-link" href="{% url 'members' %}?page={{i}}">{{i}}</a>
+						</li>
+					{% endfor %}
+				{% else %}
+					<li class="page-item disabled"><a class="page-link">...</a></li>
+					{% for i in many_pages %}
+						<li class="page-item {% if members_list.number == i %} active {% endif %} ">
+							<a class="page-link" href="{% url 'members' %}?page={{i}}">{{i}}</a>
+						</li>
+					{% endfor %}
+					<li class="page-item disabled"><a class="page-link">...</a></li>
+				{% endif %}
+
+				{% if members_list.has_next %}
+				<li class="page-item"><a class="page-link" href="{% url 'members' %}?page={{ members_list.next_page_number }}">&#155</a></li>
+				{% else %}
+				<li class="page-item disabled"><a class="page-link">&#155</a></li>
+				{% endif %}
+				<li class="page-item">
+					<a class="page-link" href="{% url 'members' %}?page={{ members_list.paginator.num_pages }}">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
+			</ul>
+		</nav>
+        {% endif %}
+	</div>
+</div>

@@ -1,0 +1,51 @@
+<div class="modal fade modal-lg" id="createMemberModal" tabindex="-1" aria-labelledby="createMemberModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="memberModalLabel">
+					Agregar usuario
+				</h5>
+				<button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"/>
+			</div>
+			<div class="modal-body">
+				<form action="{% url 'create_member' %}" method="post" id="createMember_form">
+					{% csrf_token %}
+					<div class="mb-3">
+						<label for="newName_field" class="form-label">Usuario</label>
+						<input type="text" class="form-control" id="newName_field" name="name" required />
+						<span class="invalid-feedback"/>
+					</div>
+
+					<div class="mb-3">
+						<label for="newPassword_field" class="form-label">Contraseña</label>
+						<input type="password" class="form-control" id="newPassword_field" name="password" required />
+						<span class="invalid-feedback"/>
+					</div>
+
+					<div class="row">
+						<div class="col-5">
+							<label for="newRole_field" class="form-label">
+								Rol
+							</label>
+							<select class="form-select form-control" id="newRole_field" name="role" aria-label="Rol del usuario" required>
+								<option value="" selected disabled>Selecciona un rol para el usuario</option>
+								<option value="admin">Administrador</option>
+								<option value="technician">Técnico</option>
+								<option value="operator">Operador</option>
+							</select>
+							<span class="invalid-feedback"/>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-coreui-dismiss="modal" >
+					Cancelar
+				</button>
+				<button id="saveMember_btn" type="button" class="btn btn-primary">
+					Guardar
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

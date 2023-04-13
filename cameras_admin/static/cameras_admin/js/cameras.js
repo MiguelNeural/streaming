@@ -29,7 +29,7 @@ $(document).ready(function () {
 
 	function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); } 
 	
-	if (isNumber(this.URL.split('/')[4])) {
+	if (isNumber(this.URL.split('/')[4]) && this.URL.split('/')[3]=='cameras') {
 		const cameraJson = JSON.parse($("#cameraJSON").val())[0];
 		const peopleCount = $("#editPeopleCount_checkbox");
 		const faceRec = $("#editFaceRec_checkbox");

@@ -1,3 +1,69 @@
 {% extends "dashboard/index.html" %} {% block content %} {% load static %}
 <h1>Usuarios</h1>
+
+<div class="row">
+	<div class="col-2">
+		<button type="button" class="btn btn-primary" data-coreui-toggle="modal" data-coreui-target="#createMemberModal" >
+			Agregar usuario
+		</button>
+	</div>
+</div>
+<br>
+<div class="row">
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">ID</th>
+				<th scope="col">Usuario</th>
+				<th scope="col">Rol</th>
+				<th scope="col">Editar</th>
+				<th scope="col">Eliminar</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for member in members_list %}
+				<tr>
+                    {{member.role}}
+					<th scope="row">{{ members_list.start_index|add:forloop.counter0 }}</th>
+					<th>{{ member.member_id }}</th>
+					<td>{{member.name}}</td>
+					<td>
+                        {% if member.role == 'owner' %}
+                        Dios
+                        {% elif member.role == 'admin' %}
+                        Administrador
+                        {% elif member.role == 'technician' %}
+                        Tecnico
+                        {% elif member.role == 'operator' %}
+                        Operador
+                        {% endif %}
+                    </td>
+					<td>
+						<a href="{% url 'edit_member' id=member.member_id %}?page={{ members_list.number }}" class="btn btn-primary {% if member.role == 'owner' %} disabled {% endif %}">
+							<span class="material-symbols-outlined">edit</span>
+						</a>
+					</td>
+					<td>
+						<a href="{% url 'members' %}" class="btn btn-danger {% if member.role == 'owner' %} disabled {% endif %}">
+							<span class="material-symbols-outlined">delete</span>
+						</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+{% include 'members/modules/paginator.html' %}
+
+<!-- Create Modal -->
+{% include 'members/forms/create.html' %}
+
+<!-- Update Modal -->
+{% include 'members/forms/update.html' %}
+
+<!-- Delete Modal -->
+{% comment %} {% include 'members/forms/delete.html' %} {% endcomment %}
+
 {% endblock %}
