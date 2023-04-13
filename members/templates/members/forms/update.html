@@ -1,59 +1,47 @@
-<div class="modal fade modal-lg" id="editCameraModal" tabindex="-1" aria-labelledby="editCameraModalLabel" aria-hidden="true">
+<div class="modal fade modal-lg" id="editMemberModal" tabindex="-1" aria-labelledby="editMemberModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="editCameraModalLabel">
-					Editar cámara "{{cameraById.name}}"
+				<h5 class="modal-title" id="editMemberModalLabel">
+					Editar usuario "{{memberById.name}}"
 				</h5>
 				<button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"/>
 			</div>
 			<div class="modal-body">
 				<div class="container">
-					<input type="hidden" id="cameraJSON" value="{{cameraById_json}}">
-					<form action="" method="post" id="editCamera_form">
+					<input type="hidden" id="memberJSON" value="{{memberById_json}}">
+					<form action="" method="post" id="editMember_form">
 						<div class="row">
 							{% csrf_token %}
 							<div class="col-3">
 								<div class="mb-3">
 									<label for="id_field" class="form-label">ID</label>
-									<input type="text" class="form-control" id="id_field" name="camera_id" required readonly />
+									<input type="text" class="form-control" id="id_field" name="member_id" required readonly />
 								</div>
 							</div>
 							<div class="col-9">
-								<div class="mb-3">
-									<label for="editName_field" class="form-label">Nombre de la cámara</label>
-									<input type="text" class="form-control" id="editName_field" name="name" required />
-									<span class="invalid-feedback"/>
-								</div>
+								<label for="editName_field" class="form-label">Usuario</label>
+								<input type="text" class="form-control" id="editName_field" name="name" required />
+								<span class="invalid-feedback"/>
 							</div>
+
 							<div class="col-12">
-								<div class="mb-3">
-									<label for="editRtsp_field" class="form-label">RTSP</label>
-									<input type="text" class="form-control" id="editRtsp_field" name="rtsp" required />
-									<span class="invalid-feedback"/>
-								</div>
+								<label for="editPassword_field" class="form-label">Contraseña</label>
+								<input type="password" class="form-control" id="editPassword_field" name="password" required />
+								<span class="invalid-feedback"/>
 							</div>
-							<div class="col-12">
-								<div class="mb-3">
-									<label class="form-label">
-										Servicios
-									</label>
-									<div class="form-check form-switch">
-										<input type="checkbox" class="form-check-input" id="editPeopleCount_checkbox" name="peop_c_service" role="switch" />
-										<label class="form-check-label" for="editPeopleCount_checkbox">Contéo de personas</label>
-										<span class="invalid-feedback"/>
-									</div>
-									<div class="form-check form-switch">
-										<input type="checkbox" class="form-check-input" id="editFaceRec_checkbox" name="face_rec_service" role="switch" />
-										<label class="form-check-label" for="editFaceRec_checkbox">Reconocimiento facial</label>
-										<span class="invalid-feedback"/>
-									</div>
-									<div class="form-check form-switch">
-										<input type="checkbox" class="form-check-input" id="editVehicles_checkbox" name="vehicles_service" role="switch" />
-										<label class="form-check-label" for="editVehicles_checkbox">Registro de placas vehiculares</label>
-										<span class="invalid-feedback"/>
-									</div>
-								</div>
+
+							<div class="col-5">
+								<label for="editRole_field" class="form-label">
+									Rol
+								</label>
+								<select class="form-select form-control" id="editRole_field" name="role" aria-label="Rol del usuario" required>
+									<option value="" selected disabled>Selecciona un rol para el usuario</option>
+									<option value="admin">Administrador</option>
+									<option value="technician">Técnico</option>
+									<option value="operator">Operador</option>
+								</select>
+								<span class="invalid-feedback"/>
 							</div>
 						</div>
 					</form>
@@ -63,7 +51,7 @@
 				<button type="button" class="btn btn-secondary" data-coreui-dismiss="modal" >
 					Cancelar
 				</button>
-				<button id="editCamera_btn" type="button" class="btn btn-primary">
+				<button id="editMember_btn" type="button" class="btn btn-primary">
 					Editar
 				</button>
 			</div>
