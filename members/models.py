@@ -15,6 +15,12 @@ class Member(models.Model):
     updated = models.DateTimeField(auto_now=True)
     deleted = models.DateTimeField(null=True, blank=True)
 
+    def login_isValid(self, name, password):
+        if name == self.name and password == self.password:
+            return True
+        else:
+            return False
+
     class Meta:
         app_label = 'members'
         db_table = 'members'

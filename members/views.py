@@ -7,8 +7,23 @@ from .models import Member as Member_mdl
 from .modules.forms import Member_form
 
 def login(request):
+    if request.method == "POST":
+        name = request.POST.get('name')
+        password = request.POST.get('password')
+        members = Member_mdl.objects.filter(name=name, deleted__isnull=True)
+        if members:
+            for member in members:
+                if member.login_isValid(name, password):
+                    show_alert = 'login'
+                    message = f"Bienvenido {name}"
+                    url = reverse('members') + f"?message={message}&show_alert={show_alert}"
+                    return redirect(url)
+        data = {
+            'show_alert': 'error',
+            'message': 'Nombre de usuario o contraseña incorrectos',
+        }
+        return render(request, 'members/login.html', data)
     return render(request, 'members/login.html')
-
 
 def paginator(request, directory):
     p = Paginator(directory, 10)
