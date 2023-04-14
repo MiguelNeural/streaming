@@ -78,7 +78,6 @@ $(document).ready(function () {
 	});
 
 	if (this.URL.split('/')[4] == "delete") {
-		$("#deleteCameraId_input").val(this.URL.split('/')[5]);
 		$("#deleteCameraModal").modal("show");
 	}
 

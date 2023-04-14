@@ -10,7 +10,6 @@
 			<div class="modal-body">
 				<form action="" method="post" id="deleteCamera_form">
 					{% csrf_token %}
-					<input type="hidden" name="camera_id" id="deleteCameraId_input">
 					<div class="mb-3">
 						<label class="form-label">
 							¿Está seguro que deséa eliminar la cámara "{{cameraById.name}}"?
