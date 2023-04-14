@@ -1,20 +1,10 @@
 {% load static %}
 <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
 	<div class="sidebar-brand d-none d-md-flex">
-		<img
-			class="sidebar-brand-full"
-			width="auto"
-			height="30"
-			alt="Neural10 Logo"
-			src="{% static 'dashboard/img/neural_white.png' %}"
-		/>
-		<img
-			class="sidebar-brand-narrow"
-			width="auto"
-			height="30"
-			alt="Neural10 Logo"
-			src="{% static 'dashboard/img/neural_logo_white.png' %}"
-		/>
+		<a href="/">
+			<img class="sidebar-brand-full" width="auto" height="30" alt="Neural10 Logo" src="{% static 'dashboard/img/neural_white.png' %}"/>
+		</a>
+		<img class="sidebar-brand-narrow" width="auto" height="30" alt="Neural10 Logo" src="{% static 'dashboard/img/neural_logo_white.png' %}"/>
 	</div>
 
 	<ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
@@ -68,9 +58,5 @@
 			</a>
 		</li>
 	</ul>
-	<button
-		class="sidebar-toggler"
-		type="button"
-		data-coreui-toggle="unfoldable"
-	></button>
+	<button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>
 </div>
