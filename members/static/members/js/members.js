@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    let urlArray = this.URL.split('/');
+
     $("#saveMember_btn").click(function (e) {
         e.preventDefault();
         form = $("#createMember_form");
@@ -22,14 +24,12 @@ $(document).ready(function () {
         }
     });
     
-    function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); } 
-	
-	if (isNumber(this.URL.split('/')[4]) && this.URL.split('/')[3]=='members') {
+    function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
+	if (isNumber(urlArray[4]) && urlArray[3]=='members') {
         const memberJson = JSON.parse($("#memberJSON").val())[0];
         console.log(memberJson.fields.role);
 		$("#id_field").val(memberJson.pk);
 		$("#editName_field").val(memberJson.fields.name);
-        $("#editPassword_field").val(memberJson.fields.password);
         $('#editRole_field option[value="' + memberJson.fields.role + '"]').prop('selected', true);
 
 		$("#editMemberModal").modal("show");
@@ -53,5 +53,15 @@ $(document).ready(function () {
 				});
 			});
 		}
+    });
+    
+    if (urlArray[4] == "delete") {
+		$("#deleteMemberModal").modal("show");
+	}
+
+	$("#deleteMember_btn").click(function (e) {
+		e.preventDefault();
+		form = $("#deleteMember_form");
+		form.submit();
 	});
 });

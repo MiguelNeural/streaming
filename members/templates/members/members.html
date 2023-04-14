@@ -45,7 +45,7 @@
 						</a>
 					</td>
 					<td>
-						<a href="{% url 'members' %}" class="btn btn-danger {% if member.role == 'owner' %} disabled {% endif %}">
+						<a href="{% url 'delete_member' id=member.member_id %}" class="btn btn-danger {% if member.role == 'owner' %} disabled {% endif %}">
 							<span class="material-symbols-outlined">delete</span>
 						</a>
 					</td>
@@ -64,6 +64,6 @@
 {% include 'members/forms/update.html' %}
 
 <!-- Delete Modal -->
-{% comment %} {% include 'members/forms/delete.html' %} {% endcomment %}
+{% include 'members/forms/delete.html' %}
 
 {% endblock %}

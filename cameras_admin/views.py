@@ -105,7 +105,6 @@ def delete_camera(request, id):
     except:
         return redirect('cameras')
     
-    data['cameras'] = cameras
     data['cameraById'] = cameraById
     
     if request.method == 'POST':
