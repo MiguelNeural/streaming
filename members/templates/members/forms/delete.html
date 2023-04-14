@@ -10,7 +10,6 @@
 			<div class="modal-body">
 				<form action="" method="post" id="deleteMember_form">
 					{% csrf_token %}
-					<input type="hidden" name="member_id" id="deleteMemberId_input">
 					<div class="mb-3">
 						<label class="form-label">
 							¿Está seguro que deséa eliminar el usuario "{{memberById.name}}"?
