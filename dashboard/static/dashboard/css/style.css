@@ -15027,5 +15027,13 @@ html:not([dir="rtl"]) .wrapper {
 	margin-bottom: 0.5rem;
 }
 
+.material-symbols-outlined {
+	fill: red;
+	font-variation-settings:
+	'FILL' 0,
+	'wght' 400,
+	'GRAD' 0,
+	'opsz' 48
+}
 /*# sourceMappingURL=style.css.map */
 
