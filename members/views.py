@@ -3,6 +3,7 @@ from django.core.paginator import Paginator
 from django.core import serializers
 from django.urls import reverse
 from django.utils import timezone
+from django.contrib.auth.hashers import make_password
 from .models import Member as Member_mdl
 from .modules.forms import Member_form
 
@@ -14,10 +15,7 @@ def login(request):
         if members:
             for member in members:
                 if member.login_isValid(name, password):
-                    show_alert = 'login'
-                    message = f"Bienvenido {name}"
-                    url = reverse('members') + f"?message={message}&show_alert={show_alert}"
-                    return redirect(url)
+                    return redirect('members')
         data = {
             'show_alert': 'error',
             'message': 'Nombre de usuario o contraseña incorrectos',
@@ -49,6 +47,11 @@ def create_member(request):
     if request.method == 'POST':
         form = Member_form(request.POST)
         if form.is_valid():
+            # Hash the password field
+            password = form.cleaned_data.get('password')
+            hashed_password = make_password(password)
+            form.cleaned_data['password'] = hashed_password
+            
             form.save()
             message = "Usuario agregada correctamente"
             show_alert = "success"
@@ -82,7 +85,6 @@ def edit_member(request, id):
         form = Member_form(request.POST)
         if form.is_valid():
             memberById.name = request.POST.get('name')
-            memberById.password = request.POST.get('password')
             memberById.role = request.POST.get('role')
             memberById.save()
             

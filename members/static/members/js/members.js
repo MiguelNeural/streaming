@@ -30,7 +30,6 @@ $(document).ready(function () {
         console.log(memberJson.fields.role);
 		$("#id_field").val(memberJson.pk);
 		$("#editName_field").val(memberJson.fields.name);
-        $("#editPassword_field").val(memberJson.fields.password);
         $('#editRole_field option[value="' + memberJson.fields.role + '"]').prop('selected', true);
 
 		$("#editMemberModal").modal("show");
