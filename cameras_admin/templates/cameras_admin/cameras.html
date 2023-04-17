@@ -27,9 +27,9 @@
 			{% for camera in cameras_list %}
 				<tr>
 					<th scope="row">{{ cameras_list.start_index|add:forloop.counter0 }}</th>
-					<th>{{ camera.camera_id }}</th>
-					<td>{{camera.name}}</td>
-					<td>{{camera.rtsp}}</td>
+					<td>{{ camera.camera_id }}</td>
+					<td>{{ camera.name }}</td>
+					<td>{{ camera.rtsp }}</td>
 					<td>
 						{% if camera.peop_c_service %}
 							Contéo de personas
