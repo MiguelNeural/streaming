@@ -9222,7 +9222,7 @@ html:not([dir="rtl"]) .sidebar-close {
 }
 .sidebar-nav .nav-link.disabled .nav-icon {
 	color: var(--cui-sidebar-nav-link-disabled-icon-color);
-	ill: var(--cui-sidebar-nav-link-disabled-icon-color);
+	fill: var(--cui-sidebar-nav-link-disabled-icon-color);
 }
 .sidebar-nav .nav-link.disabled:hover {
 	color: var(--cui-sidebar-nav-link-disabled-color);
@@ -15042,3 +15042,10 @@ html:not([dir="rtl"]) .wrapper {
 }
 /*# sourceMappingURL=style.css.map */
 
+.menu-icon {
+	fill: rgb(60, 75, 50);
+}
+
+.menu-icon:hover {
+	fill: rgb(110, 125, 150);
+}
