@@ -11,21 +11,25 @@
 		<li class="nav-title">Aplicaciones</li>
 		<li class="nav-item">
 			<a class="nav-link" href="/">
-				<ico class="" style="filter: hue-rotate(180deg);" src="{% static 'dashboard/img/icons/car.ico' %}" alt="Car Icon"></ico>
+				<svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48">
+					<path d="{% include 'dashboard/modules/icons/car_path.txt' %}"/>
+				</svg>
 				Registro de placas
 			</a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link" href="/">
-				<span class="nav-icon material-symbols-outlined">
-					background_replace
-				</span>
+				<svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48">
+					<path d="{% include 'dashboard/modules/icons/background_path.txt' %}"/>
+				</svg>
 				Reconocimiento facial
 			</a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link" href="/">
-				<span class="nav-icon material-symbols-outlined">groups</span>
+				<svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48">
+					<path d="{% include 'dashboard/modules/icons/groups_path.txt' %}"/>
+				</svg>
 				Contéo de personas
 			</a>
 		</li>
@@ -33,25 +37,27 @@
 		<li class="nav-title">Administración</li>
 		<li class="nav-item">
 			<a class="nav-link" href="/members/">
-				<span class="nav-icon material-symbols-outlined">group</span>
+				<svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48">
+					<path d="{% include 'dashboard/modules/icons/group_path.txt' %}"/>
+				</svg>
 				Usuarios
 			</a>
 		</li>
 
 		<li class="nav-item">
 			<a class="nav-link" href="/cameras/">
-				<span class="nav-icon material-symbols-outlined">
-					center_focus_strong
-				</span>
+				<svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48">
+					<path d="{% include 'dashboard/modules/icons/camera_path.txt' %}"/>
+				</svg>
 				Cámaras
 			</a>
 		</li>
 
 		<li class="nav-item">
 			<a class="nav-link" href="/">
-				<span class="nav-icon material-symbols-outlined">
-					monitoring
-				</span>
+				<svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48">
+					<path d="{% include 'dashboard/modules/icons/graph_path.txt' %}"/>
+				</svg>
 				Reportes
 			</a>
 		</li>

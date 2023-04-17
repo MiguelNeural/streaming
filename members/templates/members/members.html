@@ -24,9 +24,8 @@
 		<tbody>
 			{% for member in members_list %}
 				<tr>
-                    {{member.role}}
 					<th scope="row">{{ members_list.start_index|add:forloop.counter0 }}</th>
-					<th>{{ member.member_id }}</th>
+					<td>{{ member.member_id }}</td>
 					<td>{{member.name}}</td>
 					<td>
                         {% if member.role == 'owner' %}
@@ -41,12 +40,16 @@
                     </td>
 					<td>
 						<a href="{% url 'edit_member' id=member.member_id %}?page={{ members_list.number }}" class="btn btn-primary {% if member.role == 'owner' %} disabled {% endif %}">
-							<span class="material-symbols-outlined">edit</span>
+							<svg style="fill: #FFFF;" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24">
+								<path d="{% include "dashboard/modules/icons/edit_path.txt"%}"/>
+							</svg>
 						</a>
 					</td>
 					<td>
 						<a href="{% url 'delete_member' id=member.member_id %}" class="btn btn-danger {% if member.role == 'owner' %} disabled {% endif %}">
-							<span class="material-symbols-outlined">delete</span>
+							<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24">
+								<path d="{% include "dashboard/modules/icons/delete_path.txt"%}"/>
+							</svg>
 						</a>
 					</td>
 				</tr>

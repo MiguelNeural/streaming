@@ -27,9 +27,9 @@
 			{% for camera in cameras_list %}
 				<tr>
 					<th scope="row">{{ cameras_list.start_index|add:forloop.counter0 }}</th>
-					<th>{{ camera.camera_id }}</th>
-					<td>{{camera.name}}</td>
-					<td>{{camera.rtsp}}</td>
+					<td>{{ camera.camera_id }}</td>
+					<td>{{ camera.name }}</td>
+					<td>{{ camera.rtsp }}</td>
 					<td>
 						{% if camera.peop_c_service %}
 							Contéo de personas
@@ -43,17 +43,23 @@
 					</td>
 					<td>
 						<a href="{% url 'rtsp_camera' id=camera.camera_id %}" class="btn btn-secondary">
-							<span class="material-symbols-outlined">visibility</span>
+							<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24">
+								<path d="{% include "dashboard/modules/icons/eye_path.txt"%}"/>
+							</svg>
 						</a>
 					</td>
 					<td>
 						<a href="{% url 'edit_camera' id=camera.camera_id %}?page={{ cameras_list.number }}" class="btn btn-primary">
-							<span class="material-symbols-outlined">edit</span>
+							<svg style="fill: #FFFF;" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24">
+								<path d="{% include "dashboard/modules/icons/edit_path.txt"%}"/>
+							</svg>
 						</a>
 					</td>
 					<td>
 						<a href="{% url 'delete_camera' id=camera.camera_id %}?page={{ cameras_list.number }}" class="btn btn-danger">
-							<span class="material-symbols-outlined">delete</span>
+							<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24">
+								<path d="{% include "dashboard/modules/icons/delete_path.txt"%}"/>
+							</svg>
 						</a>
 					</td>
 				</tr>

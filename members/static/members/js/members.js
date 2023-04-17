@@ -4,13 +4,9 @@ $(document).ready(function () {
     $("#saveMember_btn").click(function (e) {
         e.preventDefault();
         form = $("#createMember_form");
-        console.log($("#newRole_field"));
-        console.log(form);
         if (form[0].checkValidity()) {
-            console.log("Is valid");
             form.submit();
         } else {
-            console.log("Is not valid");
             form.each(function () {
                 let inputs = $("#createMember_form :input");
                 inputs.each(function () {
@@ -27,7 +23,6 @@ $(document).ready(function () {
     function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
 	if (isNumber(urlArray[4]) && urlArray[3]=='members') {
         const memberJson = JSON.parse($("#memberJSON").val())[0];
-        console.log(memberJson.fields.role);
 		$("#id_field").val(memberJson.pk);
 		$("#editName_field").val(memberJson.fields.name);
         $('#editRole_field option[value="' + memberJson.fields.role + '"]').prop('selected', true);
