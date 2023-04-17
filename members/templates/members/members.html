@@ -24,9 +24,8 @@
 		<tbody>
 			{% for member in members_list %}
 				<tr>
-                    {{member.role}}
 					<th scope="row">{{ members_list.start_index|add:forloop.counter0 }}</th>
-					<th>{{ member.member_id }}</th>
+					<td>{{ member.member_id }}</td>
 					<td>{{member.name}}</td>
 					<td>
                         {% if member.role == 'owner' %}
