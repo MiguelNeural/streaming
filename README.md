@@ -1,7 +1,22 @@
 # Streaming Neural10
 ## Iniciando un proyecto
 - Instalar el entorno virtual pipenv:
-`pipenv install django django-ckedit Pillow pylint pylint-django mysqlclient opencv-python dj-static`
+`pipenv install django django-ckedit Pillow pylint pylint-django mysqlclient opencv-python dj-static django-dbbackup`
+
+> ##### django-ckaedit
+> Django CKEditor isntalla los JavaScript y funcionalidades para subir y explorar archivos en el servidor.
+> #### Pillow
+> Procesa imágenes. Soporta varios tipos de formatos de archivo.
+> #### Pylint
+> Pylint analiza el código sin ejecutarlo. Comprueba si hay errores, aplica un estándar de codificación, busca olores de código y puede hacer sugerencias sobre cómo refactorizar el código.
+> #### OpenCV
+> Libreria de visión computacional open source.
+> #### MySQLClient
+> Es una bifurcación de MySQL-python, que es una interfaz para el servidor de bases de datos MySQL.
+> #### Dj-static
+> Esta es una sencilla utilidad middleware de Django que te permite servir adecuadamente archivos estáticos desde producción con un servidor WSGI como Gunicorn.
+> #### Django-dbbackup
+> Esta aplicación Django proporciona comandos de gestión para ayudar a copia de seguridad y restaurar la base de datos del proyecto y archivos multimedia con varios almacenamientos como Amazon S3, DropBox o sistema de archivos local.
 
 - Iniciar el entorno virtual:
 `pipenv shell`
