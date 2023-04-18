@@ -1,5 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
-import multiprocessing.connection
+from django.shortcuts import render, redirect
 from django.views.decorators import gzip
 from django.http import StreamingHttpResponse
 from django.urls import reverse
