@@ -148,5 +148,5 @@ def video_feed(request):
     try:
         cam = VideoCamera(str(rtsp))
         return StreamingHttpResponse(gen(cam), content_type="multipart/x-mixed-replace;boundary=frame")
-    except:  # This is bad! replace it with proper handling
-        pass
+    except Exception as e:
+        print(f"\nError \n'{e}'\n en 'video_feed'\n")
