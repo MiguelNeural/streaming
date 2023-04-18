@@ -5,14 +5,13 @@ from cameras_admin.views import video_feed
 from members.views import login
 
 urlpatterns = [
-    path('', dash_views.blank, name='blank'),
+    path('', login, name='login'),
     path('dashboard/', dash_views.index, name="dashboard"),
     
     path('cameras/', include('cameras_admin.urls')),
     path('video_feed/', video_feed, name='video_feed'),
     
     path('members/', include('members.urls')),
-    path('login/', login, name='login'),
     
     path('admin/', admin.site.urls),
 ]

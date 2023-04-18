@@ -1,8 +1,4 @@
-from django.shortcuts import render, redirect
-
-# Create your views here.
-def blank(request):
-    return redirect('dashboard')
+from django.shortcuts import render
 
 def index(request):
     return render(request, 'dashboard/pages/template.html')
