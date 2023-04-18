@@ -1,5 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
-import multiprocessing.connection
+from django.shortcuts import render, redirect
 from django.views.decorators import gzip
 from django.http import StreamingHttpResponse
 from django.urls import reverse
@@ -148,5 +147,5 @@ def video_feed(request):
     try:
         cam = VideoCamera(str(rtsp))
         return StreamingHttpResponse(gen(cam), content_type="multipart/x-mixed-replace;boundary=frame")
-    except:  # This is bad! replace it with proper handling
-        pass
+    except Exception as e:
+        print(f"\nError \n'{e}'\n en 'video_feed'\n")
