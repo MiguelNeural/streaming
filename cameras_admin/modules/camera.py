@@ -8,6 +8,7 @@ class VideoCamera(object):
         threading.Thread(target=self.update, args=()).start()
 
     def __del__(self):
+        print("===============================\nObject VideoCamera has been deleted\n===============================")
         self.video.release()
 
     def get_frame(self):
@@ -17,7 +18,8 @@ class VideoCamera(object):
             print(f"Ya la regaste chavo: {e}")
             self.video = cv2.VideoCapture(0)
             (self.grabbed, self.frame) = self.video.read()
-            _, jpeg = cv2.imencode('.jpg', self.frame) #Agregar excepcion en caso de no encontrar webcam|
+            _, jpeg = cv2.imencode('.jpg', self.frame)
+            #Agregar excepcion en caso de no encontrar webcam
         return jpeg.tobytes()
 
     def update(self):
