@@ -15049,3 +15049,7 @@ html:not([dir="rtl"]) .wrapper {
 .menu-icon:hover {
 	fill: rgb(110, 125, 150);
 }
+
+.btn-icon {
+	fill: var(--cui-btn-color);
+}
