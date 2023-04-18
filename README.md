@@ -1,9 +1,9 @@
 # Streaming Neural10
-## Iniciando un proyecto
+## Instalación
 - Instalar el entorno virtual pipenv:
 `pipenv install django django-ckedit Pillow pylint pylint-django mysqlclient opencv-python dj-static django-dbbackup`
 
-> ##### django-ckaedit
+> ##### Django-ckaedit
 > Django CKEditor isntalla los JavaScript y funcionalidades para subir y explorar archivos en el servidor.
 > #### Pillow
 > Procesa imágenes. Soporta varios tipos de formatos de archivo.
