@@ -1,4 +1,6 @@
-{% extends "dashboard/index.html" %} {% block content %} {% load static %}
+{% extends "dashboard/index.html" %} {% load static %}
+{% block title %}Rtsp {{ camera_name }}{% endblock %}
+{% block content %}
 <h1>Video {{ camera_name }}</h1>
 
 <div class="row">
