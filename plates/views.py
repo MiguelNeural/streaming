@@ -1,3 +1,4 @@
 from django.shortcuts import render
 
-# Create your views here.
+def plates(request):
+    return render(request, 'plates/plates.html')
