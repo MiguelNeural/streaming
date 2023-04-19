@@ -1,7 +1,7 @@
 {% load static %}
-<div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
+<div class="sidebar sidebar-dark sidebar-fixed hide" id="sidebar">
 	<div class="sidebar-brand d-none d-md-flex">
-		<a href="/">
+		<a href="{% url 'dashboard' %}">
 			<img class="sidebar-brand-full" width="auto" height="30" alt="Neural10 Logo" src="{% static 'dashboard/img/neural_white.png' %}"/>
 		</a>
 		<img class="sidebar-brand-narrow" width="auto" height="30" alt="Neural10 Logo" src="{% static 'dashboard/img/neural_logo_white.png' %}"/>
@@ -10,7 +10,7 @@
 	<ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
 		<li class="nav-title">Aplicaciones</li>
 		<li class="nav-item">
-			<a class="nav-link" href="/">
+			<a class="nav-link" href="{% url 'plates' %}">
 				<svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48">
 					<path d="{% include 'dashboard/modules/icons/car_path.txt' %}"/>
 				</svg>
@@ -18,7 +18,7 @@
 			</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="/">
+			<a class="nav-link" href="{% url 'dashboard' %}">
 				<svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48">
 					<path d="{% include 'dashboard/modules/icons/background_path.txt' %}"/>
 				</svg>
@@ -26,7 +26,7 @@
 			</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="/">
+			<a class="nav-link" href="{% url 'dashboard' %}">
 				<svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48">
 					<path d="{% include 'dashboard/modules/icons/groups_path.txt' %}"/>
 				</svg>
@@ -36,7 +36,7 @@
 
 		<li class="nav-title">Administración</li>
 		<li class="nav-item">
-			<a class="nav-link" href="/members/">
+			<a class="nav-link" href="{% url 'members' %}">
 				<svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48">
 					<path d="{% include 'dashboard/modules/icons/group_path.txt' %}"/>
 				</svg>
@@ -45,7 +45,7 @@
 		</li>
 
 		<li class="nav-item">
-			<a class="nav-link" href="/cameras/">
+			<a class="nav-link" href="{% url 'cameras' %}">
 				<svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48">
 					<path d="{% include 'dashboard/modules/icons/camera_path.txt' %}"/>
 				</svg>
@@ -54,7 +54,7 @@
 		</li>
 
 		<li class="nav-item">
-			<a class="nav-link" href="/">
+			<a class="nav-link" href="{% url 'dashboard' %}">
 				<svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48">
 					<path d="{% include 'dashboard/modules/icons/graph_path.txt' %}"/>
 				</svg>
