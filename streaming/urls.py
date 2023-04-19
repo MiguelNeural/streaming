@@ -13,5 +13,7 @@ urlpatterns = [
     
     path('members/', include('members.urls')),
     
+    path('plates/', include('plates.urls')),
+    
     path('admin/', admin.site.urls),
 ]
