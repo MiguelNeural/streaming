@@ -15,7 +15,7 @@ def login(request):
         if members:
             for member in members:
                 if member.login_isValid(name, password):
-                    return redirect('members')
+                    return redirect('dashboard')
         data = {
             'show_alert': 'error',
             'message': 'Nombre de usuario o contraseña incorrectos',
