@@ -24,13 +24,13 @@ def paginator(request, directory):
 
 def cameras(request):
     cameras = Camera.objects.filter(deleted__isnull=True)
-    data = paginator(request, cameras)
-    data['form'] = CreateCamera_form()
+    context = paginator(request, cameras)
+    context['form'] = CreateCamera_form()
     if request.method == 'GET':
-        data["show_alert"] = request.GET.get('show_alert', '')
-        data["message"] = request.GET.get('message', '')
+        context["show_alert"] = request.GET.get('show_alert', '')
+        context["message"] = request.GET.get('message', '')
         
-    return render(request, 'cameras_admin/cameras.html', data)
+    return render(request, 'cameras_admin/cameras.html', context)
     
 def create_camera(request):
     if request.method == 'POST':
@@ -44,31 +44,31 @@ def create_camera(request):
             return redirect (url)
         else:
             cameras = Camera.objects.filter(deleted__isnull=True)
-            data = {
+            context = {
                 'form': form,
                 'cameras': cameras,
             }
-            return render(request, 'cameras_admin/cameras.html', data)
+            return render(request, 'cameras_admin/cameras.html', context)
     else:
         form = CreateCamera_form()
         cameras = Camera.objects.filter(deleted__isnull=True)
-        data = {
+        context = {
             'form': form,
             'cameras': cameras,
         }
-        return render(request, 'cameras_admin/cameras.html', data)
+        return render(request, 'cameras_admin/cameras.html', context)
     
 def edit_camera(request, id):
     cameras = Camera.objects.filter(deleted__isnull=True)
-    data = paginator(request, cameras)
+    context = paginator(request, cameras)
     try:
         cameraById = Camera.objects.filter(pk=id, deleted__isnull=True).first()
         cameraById_json = serializers.serialize('json', [cameraById])
     except:
         return redirect('cameras')
     
-    data['cameraById'] = cameraById
-    data['cameraById_json'] = cameraById_json
+    context['cameraById'] = cameraById
+    context['cameraById_json'] = cameraById_json
     
     if request.method == 'POST':
         form = CreateCamera_form(request.POST)
@@ -94,17 +94,17 @@ def edit_camera(request, id):
             url = reverse('cameras') + f"?message={message}&show_alert={show_alert}"
             return redirect (url)
     
-    return render(request, 'cameras_admin/cameras.html', data)
+    return render(request, 'cameras_admin/cameras.html', context)
 
 def delete_camera(request, id):
     cameras = Camera.objects.filter(deleted__isnull=True)
-    data = paginator(request, cameras)
+    context = paginator(request, cameras)
     try:
         cameraById = Camera.objects.filter(pk=id, deleted__isnull=True).first()
     except:
         return redirect('cameras')
     
-    data['cameraById'] = cameraById
+    context['cameraById'] = cameraById
     
     if request.method == 'POST':
         cameraById.deleted = timezone.now()
@@ -115,18 +115,18 @@ def delete_camera(request, id):
         url = reverse('cameras') + f"?message={message}&show_alert={show_alert}"
         return redirect (url)
     
-    return render(request, 'cameras_admin/cameras.html', data)
+    return render(request, 'cameras_admin/cameras.html', context)
 
 def rtsp_camera(request, id):
     try:
         cameraById = Camera.objects.filter(pk=id, deleted__isnull=True).first()
     except:
         return redirect('cameras')
-    data = {
+    context = {
         'camera_name': cameraById.name,
         'rtsp': cameraById.rtsp,
     }
-    return render(request, 'cameras_admin/rtsp.html', data)
+    return render(request, 'cameras_admin/rtsp.html', context)
 
 # GENERAR VIDEO POR RTSP
 @gzip.gzip_page
