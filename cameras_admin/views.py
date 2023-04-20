@@ -118,18 +118,6 @@ def delete_camera(request, id):
     return render(request, 'cameras_admin/cameras.html', data)
 
 def rtsp_camera(request, id):
-    #address = ('192.168.15.103', 6000)
-    #conn = multiprocessing.connection.Client(address, authkey=b'secret password')
-    #data = 'rtsp://root:Aegis4040@192.168.5.35/live.sdp'
-    #conn.send(data)
-    #timeout = 15  # set a timeout of seconds
-    #while True:
-    #    if conn.poll(timeout):
-    #        result = conn.recv()
-    #        break
-    #    else:
-    #        result = 'No response from server.'
-    #        break
     try:
         cameraById = Camera.objects.filter(pk=id, deleted__isnull=True).first()
     except:
