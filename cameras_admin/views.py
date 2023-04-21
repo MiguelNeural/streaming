@@ -25,6 +25,7 @@ def paginator(request, directory):
 def cameras(request):
     cameras = Camera.objects.filter(deleted__isnull=True)
     context = paginator(request, cameras)
+    context['headerTitle'] = "Cámaras"
     context['form'] = CreateCamera_form()
     if request.method == 'GET':
         context["show_alert"] = request.GET.get('show_alert', '')
@@ -45,6 +46,7 @@ def create_camera(request):
         else:
             cameras = Camera.objects.filter(deleted__isnull=True)
             context = {
+                'headerTitle': "Cámaras",
                 'form': form,
                 'cameras': cameras,
             }
@@ -53,6 +55,7 @@ def create_camera(request):
         form = CreateCamera_form()
         cameras = Camera.objects.filter(deleted__isnull=True)
         context = {
+            'headerTitle': "Cámaras",
             'form': form,
             'cameras': cameras,
         }
@@ -61,6 +64,7 @@ def create_camera(request):
 def edit_camera(request, id):
     cameras = Camera.objects.filter(deleted__isnull=True)
     context = paginator(request, cameras)
+    context['headerTitle'] = "Cámaras"
     try:
         cameraById = Camera.objects.filter(pk=id, deleted__isnull=True).first()
         cameraById_json = serializers.serialize('json', [cameraById])
@@ -99,6 +103,7 @@ def edit_camera(request, id):
 def delete_camera(request, id):
     cameras = Camera.objects.filter(deleted__isnull=True)
     context = paginator(request, cameras)
+    context['headerTitle'] = "Cámaras"
     try:
         cameraById = Camera.objects.filter(pk=id, deleted__isnull=True).first()
     except:
@@ -123,6 +128,7 @@ def rtsp_camera(request, id):
     except:
         return redirect('cameras')
     context = {
+        'headerTitle': f"Video: {cameraById.name}",
         'camera_name': cameraById.name,
         'rtsp': cameraById.rtsp,
     }

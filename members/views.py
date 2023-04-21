@@ -38,6 +38,7 @@ def paginator(request, directory):
 def members(request):
     members = Member_mdl.objects.filter(deleted__isnull=True)
     context = paginator(request, members)
+    context['headerTitle'] = "Usuarios"
     if request.method == 'GET':
         context['show_alert'] = request.GET.get('show_alert')
         context['message'] = request.GET.get('message')
@@ -59,16 +60,23 @@ def create_member(request):
             return redirect (url)
         else:
             members = Member_mdl.objects.filter(deleted__isnull=True)
-            context = { 'members': members, }
+            context = {
+                'headerTitle': "Usuarios",
+                'members': members,
+            }
             return render(request, 'members/members.html', context)
     else:
         members = Member_mdl.objects.filter(deleted__isnull=True)
-        context = { 'members': members, }
+        context = {
+            'headerTitle': "Usuarios",
+            'members': members,
+        }
         return render(request, 'members/members.html', context)
     
 def edit_member(request, id):
     members = Member_mdl.objects.filter(deleted__isnull=True)
     context = paginator(request, members)
+    context['headerTitle'] = 'Usuarios'
     try:
         memberById = Member_mdl.objects.filter(pk=id, deleted__isnull=True).first()
         memberById_json = serializers.serialize('json', [memberById])
@@ -103,6 +111,7 @@ def edit_member(request, id):
 def delete_member(request, id):
     members = Member_mdl.objects.filter(deleted__isnull=True)
     context = paginator(request, members)
+    context['headerTitle'] = "Usuarios"
     try:
         memberById = Member_mdl.objects.filter(pk=id, deleted__isnull=True).first()
         context['memberById'] = memberById
