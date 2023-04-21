@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.core import serializers
 from django.core.paginator import Paginator
 from django.utils import timezone
+from openpyxl import Workbook
 from .modules.camera import VideoCamera, gen
 from .modules.forms import CreateCamera_form
 from .models import Camera
@@ -162,3 +163,14 @@ def video_feed(request):
         return StreamingHttpResponse(gen(cam), content_type="multipart/x-mixed-replace;boundary=frame")
     except Exception as e:
         print(f"\nError \n'{e}'\n en 'video_feed'\n")
+        
+def create_excel(request):
+    print("========================")
+    print("CREAT EXCEL")
+    print("========================")
+    workbook = Workbook()
+    sheet = workbook.active
+    sheet["A1"] = "hello"
+    sheet["B1"] = "world!"
+    workbook.save(filename="hello_world.xlsx")
+    return render(request, 'cameras_admin/cameras.html')
