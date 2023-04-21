@@ -1,7 +1,10 @@
 # Streaming Neural10
 ## Instalación
 - Instalar el entorno virtual pipenv:
-`pipenv install django django-ckedit Pillow pylint pylint-django mysqlclient opencv-python dj-static django-dbbackup`
+
+```Bash
+pipenv install django django-ckedit Pillow pylint pylint-django mysqlclient opencv-python dj-static django-dbbackup openpyxl
+```
 
 > ##### Django-ckaedit
 > Django CKEditor isntalla los JavaScript y funcionalidades para subir y explorar archivos en el servidor.
@@ -17,6 +20,8 @@
 > Esta es una sencilla utilidad middleware de Django que te permite servir adecuadamente archivos estáticos desde producción con un servidor WSGI como Gunicorn.
 > #### Django-dbbackup
 > Esta aplicación Django proporciona comandos de gestión para ayudar a copia de seguridad y restaurar la base de datos del proyecto y archivos multimedia con varios almacenamientos como Amazon S3, DropBox o sistema de archivos local.
+> #### Openpyxl
+> Permite leer y escribir documentos de excel en formato .xslx
 
 - Iniciar el entorno virtual:
 `pipenv shell`
