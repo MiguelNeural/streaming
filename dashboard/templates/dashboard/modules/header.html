@@ -1,14 +1,12 @@
 {% load static %}
 <header class="header header-sticky mb-4">
 	<div class="container-fluid">
-		<button
-			class="header-toggler px-md-0 me-md-3"
-			type="button"
-			onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()">
+		<button class="header-toggler px-md-0 me-md-3" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()">
 			<svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48">
 				<path d="{% include "dashboard/modules/icons/menu_path.txt" %}" />
 			</svg>
 		</button>
+		<h3>{{ headerTitle }}</h3>
 
 		<ul class="header-nav ms-3">
 			<li class="nav-item dropdown">
@@ -66,5 +64,29 @@
 				</div>
 			</li>
 		</ul>
+	</div>
+
+	<div class="header-divider"></div>
+
+	<div class="container-fluid">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb my-0 ms-2" id="breadcrumb_list">
+				<li class="breadcrumb-item">
+					<a href="{% url 'dashboard' %}">Inicio</a>
+				</li>
+
+				{% for item in breadcrumb %}
+					{% if forloop.last %}
+						<li class="breadcrumb-item active">
+							<span>{{ item.tag }}</span>
+						</li>
+					{% else %}
+						<li class="breadcrumb-item">
+							<a href="{% url item.url %}">{{ item.tag }}</a>
+						</li>
+					{% endif %}
+				{% endfor %}
+			</ol>
+		</nav>
 	</div>
 </header>

@@ -7,4 +7,5 @@ urlpatterns = [
     path('<id>/', views.edit_camera, name='edit_camera'),
     path('delete/<id>/', views.delete_camera, name='delete_camera'),
     path('rtsp/<id>', views.rtsp_camera, name='rtsp_camera'),
+    path('create_excel/', views.create_excel, name="create_excel"),
 ]
