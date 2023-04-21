@@ -70,16 +70,22 @@
 
 	<div class="container-fluid">
 		<nav aria-label="breadcrumb">
-			<ol class="breadcrumb my-0 ms-2">
+			<ol class="breadcrumb my-0 ms-2" id="breadcrumb_list">
 				<li class="breadcrumb-item">
-					<a href="{% url 'dashboard' %}">Neuro Vigilancia</a>
+					<a href="{% url 'dashboard' %}">Inicio</a>
 				</li>
-				<li class="breadcrumb-item">
-					<a href="{% url 'cameras' %}">Camaras</a>
-				</li>
-				<li class="breadcrumb-item active">
-					<span>rtsp</span>
-				</li>
+
+				{% for item in breadcrumb %}
+					{% if forloop.last %}
+						<li class="breadcrumb-item active">
+							<span>{{ item.tag }}</span>
+						</li>
+					{% else %}
+						<li class="breadcrumb-item">
+							<a href="{% url item.url %}">{{ item.tag }}</a>
+						</li>
+					{% endif %}
+				{% endfor %}
 			</ol>
 		</nav>
 	</div>

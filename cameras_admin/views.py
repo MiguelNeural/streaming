@@ -26,6 +26,9 @@ def cameras(request):
     cameras = Camera.objects.filter(deleted__isnull=True)
     context = paginator(request, cameras)
     context['headerTitle'] = "Cámaras"
+    context['breadcrumb'] = [
+        {'tag': 'Cámaras', 'url': 'cameras'}
+    ]
     context['form'] = CreateCamera_form()
     if request.method == 'GET':
         context["show_alert"] = request.GET.get('show_alert', '')
@@ -47,6 +50,9 @@ def create_camera(request):
             cameras = Camera.objects.filter(deleted__isnull=True)
             context = {
                 'headerTitle': "Cámaras",
+                'breadcrumb': [
+                    {'tag': 'Cámaras', 'url': 'cameras'}
+                ],
                 'form': form,
                 'cameras': cameras,
             }
@@ -56,6 +62,9 @@ def create_camera(request):
         cameras = Camera.objects.filter(deleted__isnull=True)
         context = {
             'headerTitle': "Cámaras",
+            'breadcrumb': [
+                {'tag': 'Cámaras', 'url': 'cameras'}
+            ],
             'form': form,
             'cameras': cameras,
         }
@@ -65,6 +74,9 @@ def edit_camera(request, id):
     cameras = Camera.objects.filter(deleted__isnull=True)
     context = paginator(request, cameras)
     context['headerTitle'] = "Cámaras"
+    context['breadcrumb'] = [
+        {'tag': 'Cámaras', 'url': 'cameras'}
+    ]
     try:
         cameraById = Camera.objects.filter(pk=id, deleted__isnull=True).first()
         cameraById_json = serializers.serialize('json', [cameraById])
@@ -104,6 +116,9 @@ def delete_camera(request, id):
     cameras = Camera.objects.filter(deleted__isnull=True)
     context = paginator(request, cameras)
     context['headerTitle'] = "Cámaras"
+    context['breadcrumb'] = [
+        {'tag': 'Cámaras', 'url': 'cameras'}
+    ]
     try:
         cameraById = Camera.objects.filter(pk=id, deleted__isnull=True).first()
     except:
@@ -129,6 +144,10 @@ def rtsp_camera(request, id):
         return redirect('cameras')
     context = {
         'headerTitle': f"Video: {cameraById.name}",
+        'breadcrumb': [
+            {'tag': 'Cámaras', 'url': 'cameras'},
+            {'tag': 'Video'}
+        ],
         'camera_name': cameraById.name,
         'rtsp': cameraById.rtsp,
     }

@@ -39,6 +39,9 @@ def members(request):
     members = Member_mdl.objects.filter(deleted__isnull=True)
     context = paginator(request, members)
     context['headerTitle'] = "Usuarios"
+    context['breadcrumb'] = [
+        {"tag": "Usuario", "url": "members"}
+    ]
     if request.method == 'GET':
         context['show_alert'] = request.GET.get('show_alert')
         context['message'] = request.GET.get('message')
@@ -62,6 +65,9 @@ def create_member(request):
             members = Member_mdl.objects.filter(deleted__isnull=True)
             context = {
                 'headerTitle': "Usuarios",
+                'breadcrumb': [
+                    {"tag": "Usuario", "url": "members"}
+                ],
                 'members': members,
             }
             return render(request, 'members/members.html', context)
@@ -69,6 +75,9 @@ def create_member(request):
         members = Member_mdl.objects.filter(deleted__isnull=True)
         context = {
             'headerTitle': "Usuarios",
+            'breadcrumb': [
+                {"tag": "Usuario", "url": "members"}
+            ],
             'members': members,
         }
         return render(request, 'members/members.html', context)
@@ -77,6 +86,9 @@ def edit_member(request, id):
     members = Member_mdl.objects.filter(deleted__isnull=True)
     context = paginator(request, members)
     context['headerTitle'] = 'Usuarios'
+    context['breadcrumb'] = [
+        {"tag": "Usuario", "url": "members"}
+    ]
     try:
         memberById = Member_mdl.objects.filter(pk=id, deleted__isnull=True).first()
         memberById_json = serializers.serialize('json', [memberById])
@@ -112,6 +124,9 @@ def delete_member(request, id):
     members = Member_mdl.objects.filter(deleted__isnull=True)
     context = paginator(request, members)
     context['headerTitle'] = "Usuarios"
+    context['breadcrumb'] = [
+        {"tag": "Usuario", "url": "members"}
+    ]
     try:
         memberById = Member_mdl.objects.filter(pk=id, deleted__isnull=True).first()
         context['memberById'] = memberById
