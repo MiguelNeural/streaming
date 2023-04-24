@@ -1,8 +1,29 @@
+import multiprocessing
 import cv2
 import threading
 
 class VideoCamera(object):
     def __init__(self, rtsp):
+        # rtsp://root:Aegis4040@192.168.15.103/frstream
+        # rtsp://root:Aegis4040@192.168.15.103/mystream
+        # rtsp://root:Aegis4040@192.168.5.35/live.sdp
+        # rtsp://neuralio:Aegis4040@192.168.5.46/live.sdp
+        
+        # Envíar rtsp al doctor Gehova:
+        # address = ('192.168.15.103', 6000)
+        # conn = multiprocessing.connection.Client(address, authkey=b'secret password')
+        # data = rtsp
+        # conn.send(data)
+        # timeout = 15  # set a timeout of seconds
+        # result = ""
+        # while True:
+        #    if conn.poll(timeout):
+        #        result = conn.recv()
+        #    else:
+        #        result = 'No response from server.'
+        #        break
+        
+        rtsp = 'rtsp://root:invitado@192.168.5.44/live.sdp'
         self.video = cv2.VideoCapture(rtsp)
         (self.grabbed, self.frame) = self.video.read()
         threading.Thread(target=self.update, args=()).start()

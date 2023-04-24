@@ -1,5 +1,6 @@
-{% extends "dashboard/index.html" %} {% block content %} {% load static %}
-<h1>Usuarios</h1>
+{% extends "dashboard/index.html" %} {% load static %}
+{% block title %}Usuarios{% endblock %}
+{% block content %}
 
 <div class="row">
 	<div class="col-2">
@@ -10,63 +11,60 @@
 </div>
 <br>
 <div class="row">
-	<table class="table">
-		<thead>
-			<tr>
-				<th scope="col">#</th>
-				<th scope="col">ID</th>
-				<th scope="col">Usuario</th>
-				<th scope="col">Rol</th>
-				<th scope="col">Editar</th>
-				<th scope="col">Eliminar</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for member in members_list %}
+	<div class="card mb-3">
+		<table class="table">
+			<thead>
 				<tr>
-					<th scope="row">{{ members_list.start_index|add:forloop.counter0 }}</th>
-					<td>{{ member.member_id }}</td>
-					<td>{{member.name}}</td>
-					<td>
-                        {% if member.role == 'owner' %}
-                        Dios
-                        {% elif member.role == 'admin' %}
-                        Administrador
-                        {% elif member.role == 'technician' %}
-                        Tecnico
-                        {% elif member.role == 'operator' %}
-                        Operador
-                        {% endif %}
-                    </td>
-					<td>
-						<a href="{% url 'edit_member' id=member.member_id %}?page={{ members_list.number }}" class="btn btn-primary {% if member.role == 'owner' %} disabled {% endif %}">
-							<svg style="fill: #FFFF;" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24">
-								<path d="{% include "dashboard/modules/icons/edit_path.txt"%}"/>
-							</svg>
-						</a>
-					</td>
-					<td>
-						<a href="{% url 'delete_member' id=member.member_id %}" class="btn btn-danger {% if member.role == 'owner' %} disabled {% endif %}">
-							<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24">
-								<path d="{% include "dashboard/modules/icons/delete_path.txt"%}"/>
-							</svg>
-						</a>
-					</td>
+					<th scope="col">#</th>
+					<th scope="col">ID</th>
+					<th scope="col">Usuario</th>
+					<th scope="col">Rol</th>
+					<th scope="col">Editar</th>
+					<th scope="col">Eliminar</th>
 				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+				{% for member in members_list %}
+					<tr>
+						<th scope="row">{{ members_list.start_index|add:forloop.counter0 }}</th>
+						<td>{{ member.member_id }}</td>
+						<td>{{member.name}}</td>
+						<td>
+							{% if member.role == 'owner' %}
+							Creador
+							{% elif member.role == 'admin' %}
+							Administrador
+							{% elif member.role == 'technician' %}
+							Tecnico
+							{% elif member.role == 'operator' %}
+							Operador
+							{% endif %}
+						</td>
+						<td>
+							<a href="{% url 'edit_member' id=member.member_id %}?page={{ members_list.number }}" class="btn btn-primary {% if member.role == 'owner' %} disabled {% endif %}">
+								<svg style="fill: #FFFF;" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24">
+									<path d="{% include "dashboard/modules/icons/edit_path.txt"%}"/>
+								</svg>
+							</a>
+						</td>
+						<td>
+							<a href="{% url 'delete_member' id=member.member_id %}" class="btn btn-danger {% if member.role == 'owner' %} disabled {% endif %}">
+								<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24">
+									<path d="{% include "dashboard/modules/icons/delete_path.txt"%}"/>
+								</svg>
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
 </div>
-
 {% include 'members/modules/paginator.html' %}
-
-<!-- Create Modal -->
-{% include 'members/forms/create.html' %}
-
-<!-- Update Modal -->
-{% include 'members/forms/update.html' %}
-
-<!-- Delete Modal -->
-{% include 'members/forms/delete.html' %}
-
 {% endblock %}
+
+{% block modals %}
+{% include 'members/forms/create.html' %}
+{% include 'members/forms/update.html' %}
+{% include 'members/forms/delete.html' %}
+{% endblock%}
