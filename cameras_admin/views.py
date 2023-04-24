@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from django.views.decorators import gzip
-from django.http import StreamingHttpResponse
+from django.http import StreamingHttpResponse, FileResponse
 from django.urls import reverse
 from django.core import serializers
 from django.core.paginator import Paginator
 from django.utils import timezone
-from openpyxl import Workbook
+from openpyxl import Workbook, load_workbook
 from .modules.camera import VideoCamera, gen
 from .modules.forms import CreateCamera_form
 from .models import Camera
@@ -34,6 +34,27 @@ def cameras(request):
     if request.method == 'GET':
         context["show_alert"] = request.GET.get('show_alert', '')
         context["message"] = request.GET.get('message', '')
+    if request.method == 'POST':
+        if request.POST.get('upload_excel'):
+            file = request.FILES['excel_cameras']
+            print("========================")
+            print(file)
+            print("========================")
+            workbook = load_workbook(filename=file, read_only=True)
+            worksheet = workbook.active
+            rows = list(worksheet.iter.rows(values_only=True))
+            context['rows'] = rows
+            return render(request, 'cameras_admin/cameras.html', context)
+        if request.POST.get('create_excel'):
+            workbook = Workbook()
+            sheet = workbook.active
+            sheet["A1"] = "hello"
+            sheet["B1"] = "world!"
+            workbook.save(filename="hello_world.xlsx")
+            file = open('hello_world.xlsx', 'rb')
+            response = FileResponse(file, content_type='streaming/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            response['Content-Disposition'] = 'attachment; filename="hello_world.xlsx"'
+            return response
         
     return render(request, 'cameras_admin/cameras.html', context)
     
@@ -164,13 +185,3 @@ def video_feed(request):
     except Exception as e:
         print(f"\nError \n'{e}'\n en 'video_feed'\n")
         
-def create_excel(request):
-    print("========================")
-    print("CREAT EXCEL")
-    print("========================")
-    workbook = Workbook()
-    sheet = workbook.active
-    sheet["A1"] = "hello"
-    sheet["B1"] = "world!"
-    workbook.save(filename="hello_world.xlsx")
-    return render(request, 'cameras_admin/cameras.html')

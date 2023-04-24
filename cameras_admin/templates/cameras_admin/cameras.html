@@ -2,7 +2,7 @@
 {% block title %}Cámaras{% endblock %}
 {% block content %}
 
-<div class="row">
+<div class="row align-items-end">
 	<div class="col-2">
 		<div class="d-grid">
 			<button type="button" class="btn btn-primary" data-coreui-toggle="modal" data-coreui-target="#createCameraModal" >
@@ -10,20 +10,36 @@
 			</button>
 		</div>
 	</div>
-	<div class="col-2">
-		<form action="{% url 'create_excel' %}" method="post" id="create_excel_form">
+	<div class="col-5">
+		<form method="post" enctype="multipart/form-data">
 			{% csrf_token %}
 			<div class="d-grid">
-				<input type="submit" value="Create excel"/>
+				<label for="formFile" class="form-label">Importar cámaras</label>
+				<input class="form-control" type="file" name="excel_cameras" enctype="multipart/form-data">
+			</div>
+	</div>
+	<div class="col-2">
+			<div class="d-grid">
+				<input type="submit" name="upload_excel" value="Importar" class="btn btn-success"/>
 			</div>
 		</form>
 	</div>
+	<div class="col-1"></div>
 	<div class="col-2">
-		<div class="d-grid">
-			<button id="create_excel_btn" class="btn btn-success" type="button">Create excel</button>
-		</div>
+		<form method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			<div class="d-grid">
+				<input type="submit" name="create_excel" value="Create excel" class="btn btn-success"/>
+			</div>
+		</form>
 	</div>
 </div>
+<br>
+{% if rows %}
+{% for row in rows %}
+{{ row }}<br>
+{% endfor %}
+{% endif %}
 <br>
 <div class="row">
 	<div class="card mb-3">
