@@ -11,14 +11,14 @@
 		</div>
 	</div>
 	<div class="col-2">
-		<form action="{% url 'create_excel' %}" method="post" id="create_excel_form">
+		<form method="post" id="create_excel_form" enctype="multipart/form-data">
 			{% csrf_token %}
 			<div class="d-grid">
-				<input type="submit" value="Create excel"/>
+				<input type="submit" name="create_excel" value="Create excel" class="btn btn-success"/>
 			</div>
 		</form>
 	</div>
-	<div class="col-2">
+	<div class="col-2" hidden>
 		<div class="d-grid">
 			<button id="create_excel_btn" class="btn btn-success" type="button">Create excel</button>
 		</div>

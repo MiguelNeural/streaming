@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.decorators import gzip
-from django.http import StreamingHttpResponse
+from django.http import StreamingHttpResponse, FileResponse
 from django.urls import reverse
 from django.core import serializers
 from django.core.paginator import Paginator
@@ -34,6 +34,16 @@ def cameras(request):
     if request.method == 'GET':
         context["show_alert"] = request.GET.get('show_alert', '')
         context["message"] = request.GET.get('message', '')
+    if request.method == 'POST':
+        workbook = Workbook()
+        sheet = workbook.active
+        sheet["A1"] = "hello"
+        sheet["B1"] = "world!"
+        workbook.save(filename="hello_world.xlsx")
+        file = open('hello_world.xlsx', 'rb')
+        response = FileResponse(file, content_type='streaming/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename="hello_world.xlsx"'
+        return response
         
     return render(request, 'cameras_admin/cameras.html', context)
     
@@ -173,4 +183,7 @@ def create_excel(request):
     sheet["A1"] = "hello"
     sheet["B1"] = "world!"
     workbook.save(filename="hello_world.xlsx")
-    return render(request, 'cameras_admin/cameras.html')
+    file = open('hello_world.xlsx', 'rb')
+    response = FileResponse(file, content_type='streaming/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="hello_world.xlsx"'
+    return response
