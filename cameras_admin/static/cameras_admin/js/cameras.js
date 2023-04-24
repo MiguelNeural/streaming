@@ -86,9 +86,4 @@ $(document).ready(function () {
 		form = $("#deleteCamera_form");
 		form.submit();
 	});
-
-	$("#create_excel_btn").click(function (e) {
-		console.log("Creando Excel");
-		$("#create_excel_form").submit();
-	});
 });
