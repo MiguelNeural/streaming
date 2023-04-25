@@ -36,14 +36,9 @@ def cameras(request):
         context["message"] = request.GET.get('message', '')
     if request.method == 'POST':
         if request.POST.get('upload_excel'):
-            file = request.FILES['excel_cameras']
-            print("========================")
-            print(file)
-            print("========================")
-            workbook = load_workbook(filename=file, read_only=True)
-            worksheet = workbook.active
-            rows = list(worksheet.iter.rows(values_only=True))
-            context['rows'] = rows
+            file=request.FILES['excel_cameras']
+            camerasImported = imported_cameras(file)
+            context['rows'] = camerasImported
             return render(request, 'cameras_admin/cameras.html', context)
         if request.POST.get('create_excel'):
             workbook = Workbook()
@@ -131,7 +126,6 @@ def edit_camera(request, id):
             show_alert = "success"
             url = reverse('cameras') + f"?message={message}&show_alert={show_alert}"
             return redirect (url)
-    
     return render(request, 'cameras_admin/cameras.html', context)
 
 def delete_camera(request, id):
@@ -185,3 +179,21 @@ def video_feed(request):
     except Exception as e:
         print(f"\nError \n'{e}'\n en 'video_feed'\n")
         
+def imported_cameras(file):
+    workbook = load_workbook(filename=file, read_only=True)
+    worksheet = workbook.active
+    camerasImported = list(worksheet.iter_rows(values_only=True))
+    cameras_directory = []
+    for camera in camerasImported:
+        if 'camaras' in camera:
+            pass
+        else:
+            camera_data = {
+                'name': camera[0],
+                'rtsp': camera[1],
+                'faces': camera[2],
+                'plates': camera[3],
+                'people': camera[4],
+            }
+            cameras_directory.append(camera_data)
+    return cameras_directory
