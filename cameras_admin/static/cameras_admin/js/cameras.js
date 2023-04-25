@@ -86,4 +86,14 @@ $(document).ready(function () {
 		form = $("#deleteCamera_form");
 		form.submit();
 	});
+
+	$("#editCameraModal").on("hidden.coreui.modal", function () {
+		console.log("modal editar escondido");
+		window.location.href = "/cameras"
+	});
+
+	$("#deleteCameraModal").on("hidden.coreui.modal", function () {
+		console.log("modal eliminar escondido");
+		window.location.href = "/cameras"
+	});
 });
