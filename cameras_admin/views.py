@@ -38,7 +38,17 @@ def cameras(request):
         if request.POST.get('upload_excel'):
             file=request.FILES['excel_cameras']
             camerasImported = imported_cameras(file)
+            for cameraData in camerasImported:
+                Camera.objects.create(
+                    name = cameraData['name'],
+                    rtsp = cameraData['rtsp'],
+                    peop_c_service=cameraData['people']=='si',
+                    face_rec_service=cameraData['faces']=='si',
+                    vehicles_service=cameraData['plates']=='si',
+                )
             context['rows'] = camerasImported
+            context['show_alert'] = 'success'
+            context['message'] = 'Archivos importados desde el excel correctamente'
             return render(request, 'cameras_admin/cameras.html', context)
         if request.POST.get('create_excel'):
             workbook = Workbook()
