@@ -21,10 +21,11 @@
 	<div class="col-2">
 			<div class="d-grid">
 				<input type="submit" name="upload_excel" value="Importar" class="btn btn-success"/>
+				<span class="invalid-feedback"/>
 			</div>
 		</form>
 	</div>
-	<div class="col-1"></div>
+	{% comment %} <div class="col-1"></div>
 	<div class="col-2">
 		<form method="post" enctype="multipart/form-data">
 			{% csrf_token %}
@@ -32,7 +33,7 @@
 				<input type="submit" name="create_excel" value="Create excel" class="btn btn-success"/>
 			</div>
 		</form>
-	</div>
+	</div> {% endcomment %}
 </div>
 <br>
 {% if rows %}
