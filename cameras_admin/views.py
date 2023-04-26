@@ -9,6 +9,8 @@ from openpyxl import Workbook, load_workbook
 from .modules.camera import VideoCamera, gen
 from .modules.forms import CreateCamera_form
 from .models import Camera
+import csv
+import io
 
 # Create your views here.
 def paginator(request, directory):
@@ -37,16 +39,18 @@ def cameras(request):
     if request.method == 'POST':
         if request.POST.get('upload_excel'):
             file=request.FILES['excel_cameras']
-            camerasImported = imported_cameras(file)
-            for cameraData in camerasImported:
-                Camera.objects.create(
-                    name = cameraData['name'],
-                    rtsp = cameraData['rtsp'],
-                    peop_c_service=cameraData['people']=='si',
-                    face_rec_service=cameraData['faces']=='si',
-                    vehicles_service=cameraData['plates']=='si',
-                )
-            context['rows'] = camerasImported
+            camerasImported_list = get_cameras_direct_list(file)
+            for cameraData in camerasImported_list:
+                if 'camaras' in cameraData:
+                    pass
+                else:
+                    Camera.objects.create(
+                        name = cameraData[0],
+                        rtsp = cameraData[1],
+                        peop_c_service = cameraData[2] == 'si',
+                        face_rec_service = cameraData[3] == 'si',
+                        vehicles_service = cameraData[4] == 'si',
+                    )
             context['show_alert'] = 'success'
             context['message'] = 'Archivos importados desde el excel correctamente'
             return render(request, 'cameras_admin/cameras.html', context)
@@ -188,22 +192,14 @@ def video_feed(request):
         return StreamingHttpResponse(gen(cam), content_type="multipart/x-mixed-replace;boundary=frame")
     except Exception as e:
         print(f"\nError \n'{e}'\n en 'video_feed'\n")
-        
-def imported_cameras(file):
-    workbook = load_workbook(filename=file, read_only=True)
-    worksheet = workbook.active
-    camerasImported = list(worksheet.iter_rows(values_only=True))
-    cameras_directory = []
-    for camera in camerasImported:
-        if 'camaras' in camera:
-            pass
-        else:
-            camera_data = {
-                'name': camera[0],
-                'rtsp': camera[1],
-                'faces': camera[2],
-                'plates': camera[3],
-                'people': camera[4],
-            }
-            cameras_directory.append(camera_data)
-    return cameras_directory
+
+def get_cameras_direct_list(file):
+    match file.name.split('.')[-1]:
+        case 'xlsx':
+            workbook = load_workbook(file)
+            worksheet = workbook.active
+            return list(worksheet.iter_rows(values_only=True))
+        case 'csv':
+            return csv.reader(io.TextIOWrapper(file.file, encoding='utf-8'))
+        case _:
+            return 'error'
