@@ -53,18 +53,7 @@ def cameras(request):
                     )
             context['show_alert'] = 'success'
             context['message'] = 'Archivos importados desde el excel correctamente'
-            return render(request, 'cameras_admin/cameras.html', context)
-        if request.POST.get('create_excel'):
-            workbook = Workbook()
-            sheet = workbook.active
-            sheet["A1"] = "hello"
-            sheet["B1"] = "world!"
-            workbook.save(filename="hello_world.xlsx")
-            file = open('hello_world.xlsx', 'rb')
-            response = FileResponse(file, content_type='streaming/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-            response['Content-Disposition'] = 'attachment; filename="hello_world.xlsx"'
-            return response
-        
+            return render(request, 'cameras_admin/cameras.html', context)        
     return render(request, 'cameras_admin/cameras.html', context)
     
 def create_camera(request):

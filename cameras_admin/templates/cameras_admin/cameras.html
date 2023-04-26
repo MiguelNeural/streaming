@@ -25,23 +25,8 @@
 			</div>
 		</form>
 	</div>
-	{% comment %} <div class="col-1"></div>
-	<div class="col-2">
-		<form method="post" enctype="multipart/form-data">
-			{% csrf_token %}
-			<div class="d-grid">
-				<input type="submit" name="create_excel" value="Create excel" class="btn btn-success"/>
-			</div>
-		</form>
-	</div> {% endcomment %}
 </div>
-<br>
-{% if rows %}
-{% for row in rows %}
-{{ row }}<br>
-{% endfor %}
-{% endif %}
-<br>
+<br><br>
 <div class="row">
 	<div class="card mb-3">
 		<table class="table">
