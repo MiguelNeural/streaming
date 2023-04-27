@@ -2,6 +2,19 @@
 {% block title %}Registro de placas{% endblock %}
 {% block content %}
 
+
+<span class="d-inline-block" tabindex="0" data-coreui-toggle="popover" data-coreui-trigger="hover focus" data-coreui-content="Disabled popover">
+	<button class="btn btn-primary" type="button" disabled>Disabled button</button>
+</span>
+
+<button type="button" class="btn btn-secondary"
+        data-coreui-toggle="popover" data-coreui-placement="right"
+        data-coreui-custom-class="custom-popover"
+        data-coreui-title="Custom popover"
+        data-coreui-content="This popover is themed via CSS variables.">
+  Custom popover
+</button>
+
 <div class="row">
 	<div class="col-2">
 		<div class="d-grid">
