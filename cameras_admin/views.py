@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from django.views.decorators import gzip
-from django.http import StreamingHttpResponse, FileResponse
+from django.http import StreamingHttpResponse
 from django.urls import reverse
 from django.core import serializers
 from django.core.paginator import Paginator
 from django.utils import timezone
-from openpyxl import Workbook, load_workbook
+from openpyxl import load_workbook
 from .modules.camera import VideoCamera, gen
 from .modules.forms import CreateCamera_form
 from .models import Camera
@@ -40,19 +40,32 @@ def cameras(request):
         if request.POST.get('upload_excel'):
             file=request.FILES['excel_cameras']
             camerasImported_list = get_cameras_direct_list(file)
+            camerasFailed = []
             for cameraData in camerasImported_list:
                 if 'camaras' in cameraData:
                     pass
                 else:
-                    Camera.objects.create(
-                        name = cameraData[0],
-                        rtsp = cameraData[1],
-                        peop_c_service = cameraData[2] == 'si',
-                        face_rec_service = cameraData[3] == 'si',
-                        vehicles_service = cameraData[4] == 'si',
-                    )
-            context['show_alert'] = 'success'
-            context['message'] = 'Archivos importados desde el excel correctamente'
+                    try:
+                        if cameraData[0] == '':
+                            cameraData[0] = None
+                        if cameraData[1] == '':
+                            cameraData[1] = None
+                        Camera.objects.create(
+                            name = cameraData[0],
+                            rtsp = cameraData[1],
+                            peop_c_service = cameraData[2] == 'si',
+                            face_rec_service = cameraData[3] == 'si',
+                            vehicles_service = cameraData[4] == 'si',
+                        )
+                    except Exception as e:
+                        camerasFailed.append(cameraData)
+            if camerasFailed:
+                context['show_alert'] = 'error'
+                context['message'] = 'Error al importar archivo'
+                context['camerasFailed'] = camerasFailed
+            else:
+                context['show_alert'] = 'success'
+                context['message'] = 'Archivos importados desde el excel correctamente'
             return render(request, 'cameras_admin/cameras.html', context)        
     return render(request, 'cameras_admin/cameras.html', context)
     
