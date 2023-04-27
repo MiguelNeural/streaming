@@ -1,14 +1,16 @@
 from django.shortcuts import render, redirect
 from django.views.decorators import gzip
-from django.http import StreamingHttpResponse, FileResponse
+from django.http import StreamingHttpResponse
 from django.urls import reverse
 from django.core import serializers
 from django.core.paginator import Paginator
 from django.utils import timezone
-from openpyxl import Workbook, load_workbook
+from openpyxl import load_workbook
 from .modules.camera import VideoCamera, gen
 from .modules.forms import CreateCamera_form
 from .models import Camera
+import csv
+import io
 
 # Create your views here.
 def paginator(request, directory):
@@ -36,26 +38,35 @@ def cameras(request):
         context["message"] = request.GET.get('message', '')
     if request.method == 'POST':
         if request.POST.get('upload_excel'):
-            file = request.FILES['excel_cameras']
-            print("========================")
-            print(file)
-            print("========================")
-            workbook = load_workbook(filename=file, read_only=True)
-            worksheet = workbook.active
-            rows = list(worksheet.iter.rows(values_only=True))
-            context['rows'] = rows
-            return render(request, 'cameras_admin/cameras.html', context)
-        if request.POST.get('create_excel'):
-            workbook = Workbook()
-            sheet = workbook.active
-            sheet["A1"] = "hello"
-            sheet["B1"] = "world!"
-            workbook.save(filename="hello_world.xlsx")
-            file = open('hello_world.xlsx', 'rb')
-            response = FileResponse(file, content_type='streaming/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-            response['Content-Disposition'] = 'attachment; filename="hello_world.xlsx"'
-            return response
-        
+            file=request.FILES['excel_cameras']
+            camerasImported_list = get_cameras_direct_list(file)
+            camerasFailed = []
+            for cameraData in camerasImported_list:
+                if 'camaras' in cameraData:
+                    pass
+                else:
+                    try:
+                        if cameraData[0] == '':
+                            cameraData[0] = None
+                        if cameraData[1] == '':
+                            cameraData[1] = None
+                        Camera.objects.create(
+                            name = cameraData[0],
+                            rtsp = cameraData[1],
+                            peop_c_service = cameraData[2] == 'si',
+                            face_rec_service = cameraData[3] == 'si',
+                            vehicles_service = cameraData[4] == 'si',
+                        )
+                    except Exception as e:
+                        camerasFailed.append(cameraData)
+            if camerasFailed:
+                context['show_alert'] = 'error'
+                context['message'] = 'Error al importar archivo'
+                context['camerasFailed'] = camerasFailed
+            else:
+                context['show_alert'] = 'success'
+                context['message'] = 'Archivos importados desde el excel correctamente'
+            return render(request, 'cameras_admin/cameras.html', context)        
     return render(request, 'cameras_admin/cameras.html', context)
     
 def create_camera(request):
@@ -131,7 +142,6 @@ def edit_camera(request, id):
             show_alert = "success"
             url = reverse('cameras') + f"?message={message}&show_alert={show_alert}"
             return redirect (url)
-    
     return render(request, 'cameras_admin/cameras.html', context)
 
 def delete_camera(request, id):
@@ -184,4 +194,14 @@ def video_feed(request):
         return StreamingHttpResponse(gen(cam), content_type="multipart/x-mixed-replace;boundary=frame")
     except Exception as e:
         print(f"\nError \n'{e}'\n en 'video_feed'\n")
-        
+
+def get_cameras_direct_list(file):
+    match file.name.split('.')[-1]:
+        case 'xlsx':
+            workbook = load_workbook(file)
+            worksheet = workbook.active
+            return list(worksheet.iter_rows(values_only=True))
+        case 'csv':
+            return csv.reader(io.TextIOWrapper(file.file, encoding='utf-8'))
+        case _:
+            return 'error'

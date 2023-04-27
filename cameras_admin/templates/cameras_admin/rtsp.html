@@ -16,8 +16,8 @@
 <div class="row">
 	{% if rtsp and rtsp != 'No response from server.' %}
 	<div class="col-7">
-		<div id="videoContainer">
-			<img src="{% url 'video_feed' %}?rtsp={{ rtsp }}" />
+		<div id="videoContainer" width='100%'>
+			<img width='100%' src="{% url 'video_feed' %}?rtsp={{ rtsp }}" />
 		</div>
 	</div>
 	<div class="col-5">

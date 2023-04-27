@@ -6,8 +6,9 @@ class VideoCamera(object):
     def __init__(self, rtsp):
         # rtsp://root:Aegis4040@192.168.15.103:8554:8554/frstream
         # rtsp://root:Aegis4040@192.168.15.103:8554/mystream
-        # rtsp://root:Aegis4040@192.168.5.35/live.sdp
-        # rtsp://neural:Aegis4040@192.168.5.46/live.sdp
+        # pasillo: rtsp://root:Aegis4040@192.168.5.35/live.sdp
+        # mantenimiento: rtsp://neural:Aegis4040@192.168.5.46/live.sdp
+        # calle: rtsp://neural:Aegis4040@192.168.5.39/live.sdp
         
         # Envíar rtsp al doctor Gehova:
         # address = ('192.168.15.103', 6000)
