@@ -23,5 +23,17 @@ $(document).ready(function () {
 				});
 			});
 		}
-    });
+	});
+	
+	$("#password_field").keydown(function (e) {
+        if (e.keyCode == 13) {
+            $("#login_form").submit();
+        }
+	});
+
+	$("#name_field").keydown(function (e) {
+		if (e.keyCode == 13) {
+			$("#login_form").submit();
+		}
+	});
 });
