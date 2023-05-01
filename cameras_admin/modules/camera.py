@@ -24,7 +24,7 @@ class VideoCamera(object):
         #        result = 'No response from server.'
         #        break
         
-        rtsp = 'rtsp://neural:Aegis4040@192.168.5.46/live.sdp'
+        rtsp = 'rtsp://root:Aegis4040@192.168.15.103:8554/mystream'
         self.video = cv2.VideoCapture(rtsp)
         (self.grabbed, self.frame) = self.video.read()
         threading.Thread(target=self.update, args=()).start()
