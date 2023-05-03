@@ -1,8 +1,10 @@
 import multiprocessing
 import cv2
 import threading
+import ctypes
 
 class VideoCamera(object):
+    tensorflow = ctypes.WinDLL("lib/tensorflow.dll")
     def __init__(self, rtsp):
         # rtsp://root:Aegis4040@192.168.15.103:8554:8554/frstream
         # rtsp://root:Aegis4040@192.168.15.103:8554/mystream
