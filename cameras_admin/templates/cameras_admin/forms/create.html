@@ -10,13 +10,13 @@
 			<div class="modal-body">
 				<form action="{% url 'create_camera' %}" method="post" id="createCamera_form">
 					{% csrf_token %}
-					<div class="mb-3">
+					<div class="mb-3 input-group-sm">
 						<label for="newName_field" class="form-label">Nombre de la cámara</label>
 						<input type="text" class="form-control" id="newName_field" name="name" required />
 						<span class="invalid-feedback"/>
 					</div>
 
-					<div class="mb-3">
+					<div class="mb-3 input-group-sm">
 						<label for="newRtsp_field" class="form-label">RTSP</label>
 						<input type="text" class="form-control" id="newRtsp_field" name="rtsp" required />
 						<span class="invalid-feedback"/>
@@ -26,17 +26,17 @@
 						<label class="form-label">
 							Servicios
 						</label>
-						<div class="form-check form-switch">
+						<div class="form-check form-switch input-group-sm">
 							<input type="checkbox" class="form-check-input" id="newPeopleCount_checkbox" name="peop_c_service" role="switch" />
 							<label class="form-check-label" for="newPeopleCount_checkbox">Contéo de personas</label>
 							<span class="invalid-feedback"/>
 						</div>
-						<div class="form-check form-switch">
+						<div class="form-check form-switch input-group-sm">
 							<input type="checkbox" class="form-check-input" id="newFaceRec_checkbox" name="face_rec_service" role="switch" />
 							<label class="form-check-label" for="newFaceRec_checkbox">Reconocimiento facial</label>
 							<span class="invalid-feedback"/>
 						</div>
-						<div class="form-check form-switch">
+						<div class="form-check form-switch input-group-sm">
 							<input type="checkbox" class="form-check-input" id="newVehicles_checkbox" name="vehicles_service" role="switch" />
 							<label class="form-check-label" for="newVehicles_checkbox">Registro de placas vehiculares</label>
 							<span class="invalid-feedback"/>
@@ -44,7 +44,7 @@
 					</div>
 				</form>
 			</div>
-			<div class="modal-footer">
+			<div class="modal-footer input-group-sm">
 				<button type="button" class="btn btn-secondary" data-coreui-dismiss="modal" >
 					Cancelar
 				</button>
