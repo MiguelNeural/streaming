@@ -27,9 +27,9 @@ $(document).ready(function () {
 		$('input[type="checkbox"]').not(this).prop('checked', false);
 	});
 
-	function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); } 
+	function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
 	
-	if (isNumber(this.URL.split('/')[4]) && this.URL.split('/')[3]=='cameras') {
+	if (isNumber(this.URL.split('/')[4]) && this.URL.split('/')[3] == 'cameras') {
 		const cameraJson = JSON.parse($("#cameraJSON").val())[0];
 		const peopleCount = $("#editPeopleCount_checkbox");
 		const faceRec = $("#editFaceRec_checkbox");
@@ -39,13 +39,13 @@ $(document).ready(function () {
 		$("#editName_field").val(cameraJson.fields.name);
 		$("#editRtsp_field").val(cameraJson.fields.rtsp);
 
-		if(cameraJson.fields.peop_c_service) {
+		if (cameraJson.fields.peop_c_service) {
 			peopleCount.attr('checked', true);
 		}
-		if(cameraJson.fields.face_rec_service) {
+		if (cameraJson.fields.face_rec_service) {
 			faceRec.attr('checked', true);
 		}
-		if(cameraJson.fields.vehicles_service) {
+		if (cameraJson.fields.vehicles_service) {
 			vehicles.attr('checked', true);
 		}
 
@@ -97,6 +97,8 @@ $(document).ready(function () {
 		window.location.href = "/cameras"
 	});
 
+	var icon_search =  `<svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M180 975q-24 0-42-18t-18-42V312h60v603h474v60H180Zm120-120q-24 0-42-18t-18-42V235q0-24 18-42t42-18h440q24 0 42 18t18 42v560q0 24-18 42t-42 18H300Zm0-60h440V235H300v560Zm0 0V235v560Z"/></svg>`
+
 	$("#cameras_table").DataTable({
 		paging: true,
 		pageLength: 10,
@@ -105,11 +107,15 @@ $(document).ready(function () {
 		searching: true,
 		bInfo: false,
 		bSort: true,
-
+		
 		"columnDefs": [{
 			"targets": [5, 6, 7],
 			"orderable": false,
 		}],
+		dom: 'lBfrtip',
+		buttons: [
+			{extends: 'copy', text: icon_search, className: 'btn btn-dark', titleAttr: 'Copiar'}
+		]
 	});
 	
 	$("#searchInTable").keyup(function () {
