@@ -3,7 +3,6 @@ from django.views.decorators import gzip
 from django.http import StreamingHttpResponse
 from django.urls import reverse
 from django.core import serializers
-from django.core.paginator import Paginator
 from django.utils import timezone
 from openpyxl import load_workbook
 from .modules.camera import VideoCamera, gen
@@ -12,30 +11,16 @@ from .models import Camera
 import csv
 import io
 
-# Create your views here.
-def paginator(request, directory):
-    p = Paginator(directory, 10)
-    page = request.GET.get('page')
-    cameras_list = p.get_page(page)
-    pages = range(1, cameras_list.paginator.num_pages + 1)
-    many_pages = [page for page in range(max(cameras_list.number-3, 1), min(cameras_list.number+4, cameras_list.paginator.num_pages+1))]
-    return {
-        'cameras_list': cameras_list,
-        'pages': pages,
-        'many_pages': many_pages,
-    }
-
 def cameras(request):
     cameras = Camera.objects.filter(deleted__isnull=True)
-    # context = paginator(request, cameras)
     context = {
         'cameras_list': cameras,
+        'headerTitle': "Cámaras",
+        'breadcrumb': [
+            {'tag': 'Cámaras', 'url': 'cameras'}
+        ],
+        'form': CreateCamera_form()
     }
-    context['headerTitle'] = "Cámaras"
-    context['breadcrumb'] = [
-        {'tag': 'Cámaras', 'url': 'cameras'}
-    ]
-    context['form'] = CreateCamera_form()
     if request.method == 'GET':
         context["show_alert"] = request.GET.get('show_alert', '')
         context["message"] = request.GET.get('message', '')
@@ -108,11 +93,13 @@ def create_camera(request):
     
 def edit_camera(request, id):
     cameras = Camera.objects.filter(deleted__isnull=True)
-    context = paginator(request, cameras)
-    context['headerTitle'] = "Cámaras"
-    context['breadcrumb'] = [
-        {'tag': 'Cámaras', 'url': 'cameras'}
-    ]
+    context = {
+        'cameras_list': cameras,
+        'headerTitle': 'Cámaras',
+        'breadcrumb': [
+            {'tag': 'Cámaras', 'url': 'cameras'}
+        ],
+    }
     try:
         cameraById = Camera.objects.filter(pk=id, deleted__isnull=True).first()
         cameraById_json = serializers.serialize('json', [cameraById])
@@ -149,11 +136,13 @@ def edit_camera(request, id):
 
 def delete_camera(request, id):
     cameras = Camera.objects.filter(deleted__isnull=True)
-    context = paginator(request, cameras)
-    context['headerTitle'] = "Cámaras"
-    context['breadcrumb'] = [
-        {'tag': 'Cámaras', 'url': 'cameras'}
-    ]
+    context = {
+        'cameras_list': cameras,
+        'headerTitle': 'Cámaras',
+        'breadcrumb': [
+            {'tag': 'Cámaras', 'url': 'cameras'}
+        ],
+    }
     try:
         cameraById = Camera.objects.filter(pk=id, deleted__isnull=True).first()
     except:
