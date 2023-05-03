@@ -10,7 +10,7 @@ class VideoCamera(object):
         # rtsp://root:Aegis4040@192.168.15.103:8554/mystream
         # pasillo: rtsp://root:Aegis4040@192.168.5.35/live.sdp
         # mantenimiento: rtsp://neural:Aegis4040@192.168.5.46/live.sdp
-        # calle: rtsp://neural:Aegis4040@192.168.5.39/live.sdp
+        # calle: rtsp://neural:Aegis4040@192.168.15.110/live.sdp
         
         # Envíar rtsp al doctor Gehova:
         # address = ('192.168.15.103', 6000)
@@ -26,7 +26,7 @@ class VideoCamera(object):
         #        result = 'No response from server.'
         #        break
         
-        rtsp = 'rtsp://neural:Aegis4040@192.168.5.46/live.sdp'
+        rtsp = 'rtsp://neural:Aegis4040@192.168.15.110/live.sdp'
         self.video = cv2.VideoCapture(rtsp)
         (self.grabbed, self.frame) = self.video.read()
         threading.Thread(target=self.update, args=()).start()
