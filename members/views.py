@@ -15,12 +15,12 @@ def login(request):
         if members:
             for member in members:
                 if member.login_isValid(name, password):
-                    return redirect('members')
-        data = {
+                    return redirect('dashboard')
+        context = {
             'show_alert': 'error',
             'message': 'Nombre de usuario o contraseña incorrectos',
         }
-        return render(request, 'members/login.html', data)
+        return render(request, 'members/login.html', context)
     return render(request, 'members/login.html')
 
 def paginator(request, directory):
@@ -37,20 +37,24 @@ def paginator(request, directory):
     
 def members(request):
     members = Member_mdl.objects.filter(deleted__isnull=True)
-    data = paginator(request, members)
+    context = paginator(request, members)
+    context['headerTitle'] = "Usuarios"
+    context['breadcrumb'] = [
+        {"tag": "Usuario", "url": "members"}
+    ]
     if request.method == 'GET':
-        data['show_alert'] = request.GET.get('show_alert')
-        data['message'] = request.GET.get('message')
-    return render(request, 'members/members.html', data)
+        context['show_alert'] = request.GET.get('show_alert')
+        context['message'] = request.GET.get('message')
+    return render(request, 'members/members.html', context)
 
 def create_member(request):
     if request.method == 'POST':
         form = Member_form(request.POST)
         if form.is_valid():
             # Hash the password field
-            password = form.cleaned_data.get('password')
+            password = form.cleaned_context.get('password')
             hashed_password = make_password(password)
-            form.cleaned_data['password'] = hashed_password
+            form.cleaned_context['password'] = hashed_password
             
             form.save()
             message = "Usuario agregada correctamente"
@@ -59,16 +63,32 @@ def create_member(request):
             return redirect (url)
         else:
             members = Member_mdl.objects.filter(deleted__isnull=True)
-            data = { 'members': members, }
-            return render(request, 'members/members.html', data)
+            context = {
+                'headerTitle': "Usuarios",
+                'breadcrumb': [
+                    {"tag": "Usuario", "url": "members"}
+                ],
+                'members': members,
+            }
+            return render(request, 'members/members.html', context)
     else:
         members = Member_mdl.objects.filter(deleted__isnull=True)
-        data = { 'members': members, }
-        return render(request, 'members/members.html', data)
+        context = {
+            'headerTitle': "Usuarios",
+            'breadcrumb': [
+                {"tag": "Usuario", "url": "members"}
+            ],
+            'members': members,
+        }
+        return render(request, 'members/members.html', context)
     
 def edit_member(request, id):
     members = Member_mdl.objects.filter(deleted__isnull=True)
-    data = paginator(request, members)
+    context = paginator(request, members)
+    context['headerTitle'] = 'Usuarios'
+    context['breadcrumb'] = [
+        {"tag": "Usuario", "url": "members"}
+    ]
     try:
         memberById = Member_mdl.objects.filter(pk=id, deleted__isnull=True).first()
         memberById_json = serializers.serialize('json', [memberById])
@@ -78,8 +98,8 @@ def edit_member(request, id):
         url = reverse('members') + f"?message={message}&show_alert={show_alert}"
         return redirect (url)
     
-    data['memberById'] = memberById
-    data['memberById_json'] = memberById_json
+    context['memberById'] = memberById
+    context['memberById_json'] = memberById_json
     
     if request.method == 'POST':
         form = Member_form(request.POST)
@@ -98,14 +118,18 @@ def edit_member(request, id):
             url = reverse('members') + f"?message={message}&show_alert={show_alert}"
             return redirect (url)
             
-    return render(request, 'members/members.html', data)
+    return render(request, 'members/members.html', context)
 
 def delete_member(request, id):
     members = Member_mdl.objects.filter(deleted__isnull=True)
-    data = paginator(request, members)
+    context = paginator(request, members)
+    context['headerTitle'] = "Usuarios"
+    context['breadcrumb'] = [
+        {"tag": "Usuario", "url": "members"}
+    ]
     try:
         memberById = Member_mdl.objects.filter(pk=id, deleted__isnull=True).first()
-        data['memberById'] = memberById
+        context['memberById'] = memberById
     except:
         return redirect('members')
     
@@ -118,4 +142,4 @@ def delete_member(request, id):
         url = reverse('members') + f"?message={message}&show_alert={show_alert}"
         return redirect (url)
     
-    return render(request, 'members/members.html', data)
+    return render(request, 'members/members.html', context)

@@ -77,6 +77,11 @@ $(document).ready(function () {
 		}
 	});
 
+	$("#editCameraModal").on("hidden.coreui.modal", function () {
+		console.log("modal editar escondido");
+		window.location.href = "/cameras"
+	});
+
 	if (this.URL.split('/')[4] == "delete") {
 		$("#deleteCameraModal").modal("show");
 	}
@@ -86,4 +91,28 @@ $(document).ready(function () {
 		form = $("#deleteCamera_form");
 		form.submit();
 	});
+
+	$("#deleteCameraModal").on("hidden.coreui.modal", function () {
+		console.log("modal eliminar escondido");
+		window.location.href = "/cameras"
+	});
+
+	$("#cameras_table").DataTable({
+		paging: true,
+		pageLength: 10,
+		lengthChange: true,
+		autoWidth: true,
+		searching: true,
+		bInfo: false,
+		bSort: true,
+
+		"columnDefs": [{
+			"targets": [5, 6, 7],
+			"orderable": false,
+		}],
+	});
+	
+	$("#searchInTable").keyup(function () {
+		$("#cameras_table").DataTable().search($(this).val()).draw();
+	})
 });
