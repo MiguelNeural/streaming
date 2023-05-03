@@ -2,7 +2,7 @@
 {% block title %}Cámaras{% endblock %}
 {% block content %}
 
-<div class="row">
+<div class="row align-items-end">
 	<div class="col-2">
 		<div class="d-grid">
 			<button type="button" class="btn btn-primary" data-coreui-toggle="modal" data-coreui-target="#createCameraModal" >
@@ -10,24 +10,83 @@
 			</button>
 		</div>
 	</div>
-	<div class="col-2">
-		<form method="post" id="create_excel_form" enctype="multipart/form-data">
+	<div class="col-5">
+		<form method="post" enctype="multipart/form-data">
 			{% csrf_token %}
-			<div class="d-grid">
-				<input type="submit" name="create_excel" value="Create excel" class="btn btn-success"/>
+			<div class="input-group">
+				<input class="form-control" type="file" name="excel_cameras" enctype="multipart/form-data">
+				<input type="submit" name="upload_excel" value="Importar" class="btn btn-success"/>
 			</div>
 		</form>
 	</div>
-	<div class="col-2" hidden>
-		<div class="d-grid">
-			<button id="create_excel_btn" class="btn btn-success" type="button">Create excel</button>
+	<div class="col-2"></div>
+	<div class="col-3">
+		<div class="input-group input-group-sm">
+			<input class="form-control" type="search" id="searchInTable" placeholder="Buscar..." aria-label="Buscar">
+			<a href="{% url 'cameras' %}" class="btn btn-secondary btn-sm">
+				<svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24">
+					<path d="{% include "dashboard/modules/icons/replay_path.txt"%}"/>
+				</svg>
+			</a>
 		</div>
 	</div>
 </div>
-<br>
+<div class="row">
+	<div class="col-2"></div>
+	<div class="col-5">
+		<span class="invalid-feedback"/>
+	</div>
+</div>
+
+{% if camerasFailed %}
+<br><br>
 <div class="row">
 	<div class="card mb-3">
 		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Cámara</th>
+					<th scope="col">RTSP</th>
+					<th scope="col">Servicios</th>
+					<th scope="col">Eliminar</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for camera in camerasFailed %}
+					<tr>
+						<th scope="row">{{ camerasFailed.start_index|add:forloop.counter0 }}</th>
+						<td>{{ camera.0 }}</td>
+						<td>{{ camera.1 }}</td>
+						<td>
+							{% if camera.2 == 'si' %}
+								Contéo de personas
+							{% elif camera.3 == 'si' %}
+								Reconocimiento facial
+							{% elif camera.4 == 'si' %}
+								Registro de placas vehiculares
+							{% else %}
+								Sin servicios activos
+							{% endif %}
+						</td>
+						<td>
+							<a href="#" class="btn btn-danger disabled">
+								<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24">
+									<path d="{% include "dashboard/modules/icons/delete_path.txt"%}"/>
+								</svg>
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endif %}
+<br>
+<div class="row">
+	<div class="card mb-3">
+		<table class="table" id="cameras_table">
 			<thead>
 				<tr>
 					<th scope="col">#</th>

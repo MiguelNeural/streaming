@@ -44,6 +44,19 @@ streaming =  "python streaming/manage.py runserver"
 - Agregando el código anterior correremos los scripts creados con la siguiente linea de codigo:
 `pipenv run <nombre_del_script>`
 
+### settings.py
+En el archivo settings.py se guardan configuraciones importantes para el funcionamiento del proyecto.
+Para agregar las librerias hay que agregar el siguiente codigo.
+
+#### 
+````python
+import os
+import sys
+
+LIBRARY_DIR = os.path.join(BASE_DIR, 'lib')
+sys.path.append(LIBRARY_DIR)
+```
+
 ## Desarrollo de aplicaciones
 - Inicializar la aplicacion:
 `python manage.py startapp <nombre_de_aplicacion>`

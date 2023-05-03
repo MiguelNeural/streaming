@@ -1,13 +1,16 @@
 import multiprocessing
 import cv2
 import threading
+import ctypes
 
 class VideoCamera(object):
+    tensorflow = ctypes.WinDLL("lib/tensorflow.dll")
     def __init__(self, rtsp):
-        # rtsp://root:Aegis4040@192.168.15.103/frstream
-        # rtsp://root:Aegis4040@192.168.15.103/mystream
-        # rtsp://root:Aegis4040@192.168.5.35/live.sdp
-        # rtsp://neuralio:Aegis4040@192.168.5.46/live.sdp
+        # rtsp://root:Aegis4040@192.168.15.103:8554:8554/frstream
+        # rtsp://root:Aegis4040@192.168.15.103:8554/mystream
+        # pasillo: rtsp://root:Aegis4040@192.168.5.35/live.sdp
+        # mantenimiento: rtsp://neural:Aegis4040@192.168.5.46/live.sdp
+        # calle: rtsp://neural:Aegis4040@192.168.15.110/live.sdp
         
         # Envíar rtsp al doctor Gehova:
         # address = ('192.168.15.103', 6000)
@@ -23,7 +26,7 @@ class VideoCamera(object):
         #        result = 'No response from server.'
         #        break
         
-        rtsp = 'rtsp://root:invitado@192.168.5.44/live.sdp'
+        rtsp = 'rtsp://neural:Aegis4040@192.168.15.110/live.sdp'
         self.video = cv2.VideoCapture(rtsp)
         (self.grabbed, self.frame) = self.video.read()
         threading.Thread(target=self.update, args=()).start()
