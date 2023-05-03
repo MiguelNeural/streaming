@@ -27,7 +27,10 @@ def paginator(request, directory):
 
 def cameras(request):
     cameras = Camera.objects.filter(deleted__isnull=True)
-    context = paginator(request, cameras)
+    # context = paginator(request, cameras)
+    context = {
+        'cameras_list': cameras,
+    }
     context['headerTitle'] = "Cámaras"
     context['breadcrumb'] = [
         {'tag': 'Cámaras', 'url': 'cameras'}

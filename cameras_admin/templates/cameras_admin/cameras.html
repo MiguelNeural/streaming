@@ -13,17 +13,28 @@
 	<div class="col-5">
 		<form method="post" enctype="multipart/form-data">
 			{% csrf_token %}
-			<div class="d-grid">
-				<label for="formFile" class="form-label">Importar cámaras</label>
+			<div class="input-group">
 				<input class="form-control" type="file" name="excel_cameras" enctype="multipart/form-data">
-			</div>
-	</div>
-	<div class="col-2">
-			<div class="d-grid">
 				<input type="submit" name="upload_excel" value="Importar" class="btn btn-success"/>
-				<span class="invalid-feedback"/>
 			</div>
 		</form>
+	</div>
+	<div class="col-2"></div>
+	<div class="col-3">
+		<div class="input-group input-group-sm">
+			<input class="form-control" type="search" id="searchInTable" placeholder="Buscar..." aria-label="Buscar">
+			<a href="{% url 'cameras' %}" class="btn btn-secondary btn-sm">
+				<svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24">
+					<path d="{% include "dashboard/modules/icons/replay_path.txt"%}"/>
+				</svg>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-2"></div>
+	<div class="col-5">
+		<span class="invalid-feedback"/>
 	</div>
 </div>
 
@@ -72,11 +83,10 @@
 	</div>
 </div>
 {% endif %}
-
-<br><br>
+<br>
 <div class="row">
 	<div class="card mb-3">
-		<table class="table">
+		<table class="table" id="cameras_table">
 			<thead>
 				<tr>
 					<th scope="col">#</th>
