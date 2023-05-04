@@ -9,9 +9,9 @@
 		<meta name="description" content="Neural - Sistema de Neuro Vigilancia" />
 		<meta name="author" content="Neuralio" />
 		<meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard,Camera,Stream,Video,Plates,Member,Faces" />
+		<meta name="theme-color" content="#ffffff" />
 		<title>{% block title %}{% endblock %} | Neuro Vigilancia</title>
 		<link rel="icon" type="image/x-icon" href="{% static 'dashboard/img/favicon/neural10.ico' %}" />
-		<meta name="theme-color" content="#ffffff" />
 		<!-- Vendors styles -->
 		<link rel="stylesheet" href="{% static 'dashboard/vendors/simplebar/css/simplebar.css' %}" />
 		<link rel="stylesheet" href="{% static 'dashboard/vendors/simplebar/simplebar.css' %}" />
@@ -21,8 +21,7 @@
 		<!-- JQUERY -->
 		<script src="{% static "dashboard/js/jquery.min.js" %}"></script>
 		<!-- Datatable Js -->
-		<link rel="stylesheet" href="{% static 'dashboard/css/dataTable.css' %}" />
-		<script src="{% static 'dashboard/js/dataTables.js' %}"></script>
+		<link rel="stylesheet" href="{% static 'dashboard/css/datatables.min.css' %}" />
 		<!-- SweetAlerts -->
 		<link rel="stylesheet" href="{% static 'dashboard/css/sweetalert2.min.css' %}">
 	</head>
@@ -51,6 +50,11 @@
 		<script src="{% static 'cameras_admin/js/cameras.js' %}"></script>
 		<script src="{% static 'members/js/members.js' %}"></script>
 		<script src="{% static 'dashboard\js\sweetalert2.min.js' %}"></script>
+		<!-- Datatable Js -->
+		<script src="{% static 'dashboard/js/datatables.min.js' %}"></script>
+		<!-- pdf maker -->
+		<script src="{% static 'dashboard/js/pdfmake.min.js' %}"></script>
+		<script src="{% static 'dashboard/js/vfs_fonts.js' %}"></script>
 
 		{% if show_alert and message %}
 			<script>
