@@ -100,11 +100,13 @@ $(document).ready(function () {
 	var icon_print = `<svg class="btn-icon" height="20" width="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960"><path d="M658 408V276H302v132h-60V216h476v192h-60Zm-518 60h680-680Zm599 95q12 0 21-9t9-21q0-12-9-21t-21-9q-12 0-21 9t-9 21q0 12 9 21t21 9Zm-81 313V684H302v192h356Zm60 60H242V760H80V514q0-45.05 30.5-75.525Q141 408 186 408h588q45.05 0 75.525 30.475Q880 468.95 880 514v246H718v176Zm102-236V513.785Q820 494 806.775 481 793.55 468 774 468H186q-19.55 0-32.775 13.225Q140 494.45 140 514v186h102v-76h476v76h102Z"/></svg>`
 	var icon_pdf = `<svg class="btn-icon" height="20" width="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960"><path d="M331 625h37v-83h48q15.725 0 26.362-10.638Q453 520.725 453 505v-48q0-15.725-10.638-26.362Q431.725 420 416 420h-85v205Zm37-120v-48h48v48h-48Zm129 120h84q15 0 26-10.638 11-10.637 11-26.362V457q0-15.725-11-26.362Q596 420 581 420h-84v205Zm37-37V457h47v131h-47Zm133 37h37v-83h50v-37h-50v-48h50v-37h-87v205ZM260 856q-24 0-42-18t-18-42V236q0-24 18-42t42-18h560q24 0 42 18t18 42v560q0 24-18 42t-42 18H260Zm0-60h560V236H260v560ZM140 976q-24 0-42-18t-18-42V296h60v620h620v60H140Zm120-740v560-560Z"/></svg>`
 	
+	$("#cameras_table thead tr").clone(true).addClass('filters').appendTo("#cameras_table thead");
+
 	$("#cameras_table").DataTable({
 		paging: true,
 		pageLength: 10,
 		lengthChange: true,
-		autoWidth: true,
+		autoWidth: false,
 		searching: true,
 		bInfo: true,
 		bSort: true,
@@ -112,6 +114,35 @@ $(document).ready(function () {
 			"targets": [5, 6, 7],
 			"orderable": false,
 		}],
+
+		initComplete: function () {
+			var api = this.api();
+			api.columns([ 1, 2, 3, 4,]).eq(0).each(function (col_idx) {
+				var cell = $(".filters th").eq($(api.column(col_idx).header()).index());
+				var title = $(cell).text();
+				$(cell).html("<input type='text' placeholder='" + title + "'/>");
+
+				$("input", $(".filters th").eq($(api.column(col_idx).header()).index())).off("keyip change").on("keyup change", function (e) {
+					e.stopPropagation();
+					$(this).attr("title", $(this).val());
+					var regexr = "({search})";
+					var cursorPosition = this.selectionStart;
+					api.column(col_idx).search(
+						this.value != "" ? regexr.replace("{search}", "(((" + this.value + ")))") : "",
+						this.value != "",
+						this.value == ""
+					).draw();
+
+					$(this).focus()[0].setSelectionRange(cursorPosition, cursorPosition);
+				});
+
+			});
+			api.columns([ 0, 5, 6, 7 ]).eq(0).each(function (col_idx) {
+				var cell = $(".filters th").eq($(api.column(col_idx).header()).index());
+				$(cell).html("");
+			});
+		},
+
 		dom: 'Bfrltip',
 		buttons: [
 			{
@@ -137,6 +168,7 @@ $(document).ready(function () {
 					alignment: 'center',
 				},
 				customize: function (doc) {
+					doc.styles.tableHeader.alignment = 'center';
 					doc.styles.tableBodyEven.alignment = 'center';
 					doc.styles.tableBodyOdd.alignment = 'center';
 					doc.defaultStyle.fontSize = 6;
