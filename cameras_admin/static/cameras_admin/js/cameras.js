@@ -78,7 +78,6 @@ $(document).ready(function () {
 	});
 
 	$("#editCameraModal").on("hidden.coreui.modal", function () {
-		console.log("modal editar escondido");
 		window.location.href = "/cameras"
 	});
 
@@ -93,7 +92,6 @@ $(document).ready(function () {
 	});
 
 	$("#deleteCameraModal").on("hidden.coreui.modal", function () {
-		console.log("modal eliminar escondido");
 		window.location.href = "/cameras"
 	});
 
@@ -135,12 +133,21 @@ $(document).ready(function () {
 			{
 				extend: 'pdf', text: icon_pdf, className: 'btn btn-dark btn-sm', titleAttr: 'Exportar pdf',
 				exportOptions: { columns: [1, 2, 3, 4] },
+				tableHeader: {
+					alignment: 'center',
+				},
+				customize: function (doc) {
+					doc.styles.tableBodyEven.alignment = 'center';
+					doc.styles.tableBodyOdd.alignment = 'center';
+					doc.defaultStyle.fontSize = 6;
+					doc.styles.tableHeader.fontSize = 7;
+					doc.content[1].table.widths = Array(doc.content[1].table.body[1].length + 1).join('*').split('');
+					console.log(doc);
+				},
 			},
 		],
 	});
 
-	console.log($("#cameras_table"));
-	
 	$("#searchInTable").keyup(function () {
 		$("#cameras_table").DataTable().search($(this).val()).draw();
 	})
